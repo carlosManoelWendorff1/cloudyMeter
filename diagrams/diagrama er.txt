@@ -1,0 +1,29 @@
+
+@startuml
+entity Meter {
+  * id : int
+  * battery : int
+}
+
+entity Sensor {
+  * id : int
+  * isDefault : boolean
+  --
+  + meter_id : int
+}
+
+entity Reading {
+  * id : int
+  * value : float
+  * time : datetime
+  * type : String
+  --
+  + sensor_id : int
+}
+
+Meter ||--o{ Sensor : possui
+Sensor ||--o{ Reading : gera
+
+@enduml
+
+

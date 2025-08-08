@@ -1,0 +1,19 @@
+
+CREATE TABLE meters (
+    id SERIAL PRIMARY KEY,
+    battery INTEGER
+);
+
+CREATE TABLE sensors (
+    id SERIAL PRIMARY KEY,
+    isdefault BOOLEAN DEFAULT FALSE,
+    meter_id INTEGER REFERENCES meters(id)
+);
+
+CREATE TABLE readings (
+    id SERIAL PRIMARY KEY,
+    value FLOAT NOT NULL,
+    time TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    type VARCHAR NOT NULL,
+    sensor_id INTEGER REFERENCES sensors(id)
+);

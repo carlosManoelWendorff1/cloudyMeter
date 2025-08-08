@@ -1,0 +1,15 @@
+@startuml
+actor Usuario
+database PostgreSQL
+cloud MQTT
+rectangle "Arduino + Sensor\n(MQTT Publisher)" as Arduino
+rectangle "Backend\n(Java Spring Boot)" as Backend
+rectangle "Frontend\nReact + Next.js" as Frontend
+
+Usuario --> Frontend
+Frontend --> Backend
+Backend --> PostgreSQL
+Arduino --> MQTT
+MQTT --> Backend
+
+@enduml
