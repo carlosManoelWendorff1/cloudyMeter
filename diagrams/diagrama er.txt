@@ -1,8 +1,14 @@
-
 @startuml
+entity Organization {
+  * id : int
+  * name : String
+  * passwordHash : String
+}
+
 entity Meter {
   * id : int
   * battery : int
+  * organization_id : int
 }
 
 entity Sensor {
@@ -21,9 +27,8 @@ entity Reading {
   + sensor_id : int
 }
 
+Organization ||--o{ Meter : possui
 Meter ||--o{ Sensor : possui
 Sensor ||--o{ Reading : gera
 
 @enduml
-
-
