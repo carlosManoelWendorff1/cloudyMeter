@@ -3,11 +3,14 @@ actor Usuario
 database PostgreSQL
 cloud MQTT
 rectangle "Arduino + Sensor\n(MQTT Publisher)" as Arduino
-rectangle "Backend\n(Java Spring Boot)" as Backend
+rectangle "Backend\n(Java Spring Boot)\n- Autenticação\n- Sessões\n- API" as Backend
 rectangle "Frontend\nReact + Next.js" as Frontend
 
-Usuario --> Frontend
-Frontend --> Backend
+Usuario --> Frontend : login (basic auth)
+Frontend --> Backend : login (basic auth)
+Backend --> PostgreSQL : valida credenciais (Organization)
+Backend --> Frontend : retorna token de sessão (JWT, etc.)
+Frontend --> Backend : envia token nas requisições subsequentes
 Backend --> PostgreSQL
 Arduino --> MQTT
 MQTT --> Backend
