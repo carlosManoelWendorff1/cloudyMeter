@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 type LoginFormValues = {
   username: string;
@@ -25,12 +28,13 @@ export function LoginForm({
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>();
+  const router = useRouter();
 
-  const onSubmit = async (data: LoginFormValues) => {
-    console.log("Login data:", data);
-    // aqui você chama sua API ou backend
-  };
-
+  function onSubmit(data: LoginFormValues) {
+    localStorage.setItem("auth", "true");
+    localStorage.setItem("user", data.username);
+    router.push("/dashboard");
+  }
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -46,8 +50,7 @@ export function LoginForm({
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
+                  id="username"
                   placeholder="..."
                   {...register("username", {
                     required: "username is required",
