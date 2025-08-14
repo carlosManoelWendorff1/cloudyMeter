@@ -19,8 +19,6 @@ export function SensorChart({
   title: string;
 }) {
   const option = useMemo(() => {
-    const times = readings.map((r) => r.time);
-    const values = readings.map((r) => r.value);
     return {
       tooltip: { trigger: "axis" },
       grid: { top: 24, right: 16, bottom: 40, left: 48 },

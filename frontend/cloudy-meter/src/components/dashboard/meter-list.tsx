@@ -20,7 +20,7 @@ export function MeterList({
   onSelect: (id: string) => void;
 }) {
   return (
-    <Card className="h-full">
+    <Card className="h-full ">
       <CardHeader>
         <CardTitle>Meters</CardTitle>
         <CardDescription>Select a meter to view sensors</CardDescription>

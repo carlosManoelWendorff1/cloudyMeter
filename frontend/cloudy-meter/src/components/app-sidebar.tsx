@@ -11,6 +11,8 @@ import {
 import { MeterList } from "./dashboard/meter-list";
 import { Reading } from "@/types/reading";
 import { Cloud } from "lucide-react";
+import { Meter } from "@/types/meter";
+import { Sensor } from "@/types/sensor";
 
 // ---------- MOCK ----------
 function generateMock(): {
@@ -84,13 +86,12 @@ function generateMock(): {
   return { meters, sensors, readings };
 }
 
-const {
-  meters: MOCK_METERS,
-  sensors: MOCK_SENSORS,
-  readings: MOCK_READINGS,
-} = generateMock();
+const { meters: MOCK_METERS } = generateMock();
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  onMeterSelect: (value: string) => void;
+};
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ onMeterSelect, ...props }: AppSidebarProps) {
   const [filterText, setFilterText] = React.useState("");
   const filteredMeters = React.useMemo(
     () =>
@@ -105,27 +106,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   >(filteredMeters[0]?.id);
 
   return (
-    <Sidebar {...props}>
+    <Sidebar {...props} collapsible="none" className="w-80">
       <SidebarHeader>
-        <SidebarHeader>
-          <div className="flex flex-col items-center space-y-2">
-            <Cloud className="text-primary-700 w-10 h-10" />
-            <h1 className="text-2xl text-primary-700 font-semibold">
-              CloudyMeter
-            </h1>
-          </div>
-        </SidebarHeader>
-        <SearchForm />
+        <div className="flex flex-col items-center space-y-2">
+          <Cloud className="text-primary-700 w-10 h-10" />
+          <h1 className="text-2xl text-primary-700 font-semibold">
+            CloudyMeter
+          </h1>
+        </div>
+        <SearchForm
+          onSearchSubmit={(value) => {
+            setFilterText(value);
+          }}
+        />
       </SidebarHeader>
-      {/* <SidebarTrigger className="-ml-1" /> */}
 
       <SidebarContent>
         <MeterList
           items={filteredMeters}
           selectedId={selectedMeterId}
-          onSelect={setSelectedMeterId}
+          onSelect={(value) => {
+            setSelectedMeterId(value);
+            onMeterSelect?.(value);
+          }}
         />
       </SidebarContent>
+
       <SidebarRail />
     </Sidebar>
   );

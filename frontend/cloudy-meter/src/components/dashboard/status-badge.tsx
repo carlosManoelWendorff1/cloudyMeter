@@ -6,12 +6,12 @@ export function StatusBadge({ status }: { status: Meter["status"] }) {
     Meter["status"],
     {
       label: string;
-      variant: "default" | "secondary" | "destructive" | "outline";
+      variant: "primary" | "secondary" | "error" | "neutral";
     }
   > = {
-    online: { label: "Online", variant: "default" },
-    offline: { label: "Offline", variant: "destructive" },
-    maintenance: { label: "Maintenance", variant: "secondary" },
+    online: { label: "Online", variant: "primary" },
+    offline: { label: "Offline", variant: "error" },
+    maintenance: { label: "Maintenance", variant: "neutral" },
   };
   const cfg = map[status];
   return <Badge variant={cfg.variant}>{cfg.label}</Badge>;

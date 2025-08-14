@@ -1,8 +1,8 @@
 import { Reading } from "@/types/reading";
 import { AgGridReact } from "ag-grid-react";
-import { useMemo } from "react";
-import { ColDef } from "ag-grid-community"; // <--- Add this import
-import "ag-grid-community/styles/ag-theme-quartz.css"; // <--- Add a theme style
+import { useMemo, useRef, useState } from "react";
+import { ColDef, GridApi } from "ag-grid-community";
+import "ag-grid-community/styles/ag-theme-quartz.css";
 import {
   Card,
   CardHeader,
@@ -10,9 +10,23 @@ import {
   CardDescription,
   CardContent,
 } from "../ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export function ReadingsGrid({ rows }: { rows: Reading[] }) {
-  // Define column definitions with the Reading type
+  const gridRef = useRef<GridApi | null>(null);
+
+  // Estado de paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10; // número de linhas por página
+  const pageCount = Math.ceil(rows.length / pageSize);
+
+  // Definições das colunas
   const columnDefs: ColDef<Reading>[] = useMemo(
     () => [
       {
@@ -25,7 +39,17 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
     []
   );
 
-  const rowData = rows;
+  // Dados da página atual
+  const paginatedData = useMemo(() => {
+    const start = (currentPage - 1) * pageSize;
+    return rows.slice(start, start + pageSize);
+  }, [rows, currentPage]);
+  const defaultColDef = {
+    filter: true,
+    sortable: true,
+    resizable: true,
+    flex: 1,
+  };
 
   return (
     <Card className="w-full">
@@ -34,12 +58,40 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
         <CardDescription>Tabular readings</CardDescription>
       </CardHeader>
       <CardContent>
-        <div style={{ height: 360, width: "100%" }}>
+        <div className="ag-theme-quartz" style={{ height: 400, width: "100%" }}>
           <AgGridReact
+            rowData={paginatedData}
             columnDefs={columnDefs}
-            rowData={rowData}
-            animateRows={true}
+            defaultColDef={defaultColDef}
+            animateRows
           />
+        </div>
+
+        {/* Paginação */}
+        <div className="mt-4 flex justify-center">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  aria-disabled={currentPage === 1}
+                />
+              </PaginationItem>
+
+              <span className="px-4 py-2 text-sm">
+                Página {currentPage} de {pageCount}
+              </span>
+
+              <PaginationItem>
+                <PaginationNext
+                  onClick={() =>
+                    setCurrentPage((p) => Math.min(pageCount, p + 1))
+                  }
+                  aria-disabled={currentPage === pageCount}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </div>
       </CardContent>
     </Card>

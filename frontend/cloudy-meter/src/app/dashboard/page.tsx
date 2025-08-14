@@ -107,84 +107,105 @@ const {
 
 // ---------- PAGE ----------
 export default function DashboardPage() {
+  const [meters, setMeters] = useState<Meter[]>([]);
+  const [sensors, setSensors] = useState<Sensor[]>([]);
+  const [readings, setReadings] = useState<Reading[]>([]);
+
   const [filterText, setFilterText] = useState("");
-  const filteredMeters = useMemo(
-    () =>
-      MOCK_METERS.filter((m) =>
-        m.name.toLowerCase().includes(filterText.toLowerCase())
-      ),
-    [filterText]
-  );
+  const [selectedMeterId, setSelectedMeterId] = useState<string>();
+  const [selectedSensorId, setSelectedSensorId] = useState<string>();
 
-  const [selectedMeterId, setSelectedMeterId] = useState<string | undefined>(
-    filteredMeters[0]?.id
-  );
-
-  const sensorsForMeter = useMemo(
-    () => MOCK_SENSORS.filter((s) => s.meterId === selectedMeterId),
-    [selectedMeterId]
-  );
-
-  const [selectedSensorId, setSelectedSensorId] = useState<string | undefined>(
-    sensorsForMeter[0]?.id
-  );
-
+  // Carrega meters
   useEffect(() => {
-    if (
-      !selectedSensorId ||
-      !sensorsForMeter.find((s) => s.id === selectedSensorId)
-    ) {
-      setSelectedSensorId(sensorsForMeter[0]?.id);
-    }
-  }, [selectedMeterId, sensorsForMeter]);
+    fetch("/api/meters")
+      .then((res) => res.json())
+      .then(setMeters);
+  }, []);
 
-  const currentSensor = sensorsForMeter.find((s) => s.id === selectedSensorId);
-  const sensorReadings = useMemo(
-    () =>
-      selectedSensorId
-        ? MOCK_READINGS.filter((r) => r.sensorId === selectedSensorId)
-        : [],
-    [selectedSensorId]
+  // Carrega sensors quando o meter muda
+  useEffect(() => {
+    if (!selectedMeterId) return;
+    fetch(`/api/meters/${selectedMeterId}/sensors`)
+      .then((res) => res.json())
+      .then((data) => {
+        setSensors(data);
+        setSelectedSensorId(data[0]?.id);
+      });
+  }, [selectedMeterId]);
+
+  // Carrega readings com polling (ex: a cada 5s)
+  useEffect(() => {
+    if (!selectedSensorId) return;
+    let isMounted = true;
+
+    const fetchData = async () => {
+      const res = await fetch(
+        `/api/sensors/${selectedSensorId}/readings?last=24h`
+      );
+      const data = await res.json();
+      if (isMounted) setReadings(data);
+    };
+
+    fetchData();
+    const id = setInterval(fetchData, 5000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(id);
+    };
+  }, [selectedSensorId]);
+
+  const filteredMeters = meters.filter((m) =>
+    m.name.toLowerCase().includes(filterText.toLowerCase())
   );
+
+  const sensorsForMeter = sensors.filter((s) => s.meterId === selectedMeterId);
+  const currentSensor = sensorsForMeter.find((s) => s.id === selectedSensorId);
+
   ModuleRegistry.registerModules([AllCommunityModule]);
 
   return (
-    <>
-      <SidebarProvider>
-        <AppSidebar></AppSidebar>
-      </SidebarProvider>
-      <div className="flex-col  space-y-6 p-4 w-full">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>CloudyMeter Dashboard</CardTitle>
-              <CardDescription>
-                Select a meter and sensor to visualize readings.
-              </CardDescription>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="outline">Meters: {filteredMeters.length}</Badge>
-              <Badge variant="outline">Sensors: {sensorsForMeter.length}</Badge>
-            </div>
-          </CardHeader>
-        </Card>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-screen">
+        {/* Sidebar */}
+        <AppSidebar onMeterSelect={setSelectedMeterId} />
 
-        <SensorGrid
-          sensors={sensorsForMeter}
-          onSelect={setSelectedSensorId}
-          selectedId={selectedSensorId}
-        />
+        {/* Main content */}
+        <div className="flex-1 flex flex-col space-y-6 p-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>CloudyMeter Dashboard</CardTitle>
+                <CardDescription>
+                  Select a meter and sensor to visualize readings.
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant="outline">Meters: {filteredMeters.length}</Badge>
+                <Badge variant="outline">
+                  Sensors: {sensorsForMeter.length}
+                </Badge>
+              </div>
+            </CardHeader>
+          </Card>
 
-        {currentSensor && (
-          <SensorChart
-            title={`${currentSensor.name} (${currentSensor.unit})`}
-            unit={currentSensor.unit}
-            readings={sensorReadings}
+          <SensorGrid
+            sensors={sensorsForMeter}
+            onSelect={setSelectedSensorId}
+            selectedId={selectedSensorId}
           />
-        )}
 
-        <ReadingsGrid rows={sensorReadings} />
+          {currentSensor && (
+            <SensorChart
+              title={`${currentSensor.name} (${currentSensor.unit})`}
+              unit={currentSensor.unit}
+              readings={readings}
+            />
+          )}
+
+          <ReadingsGrid rows={readings} />
+        </div>
       </div>
-    </>
+    </SidebarProvider>
   );
 }

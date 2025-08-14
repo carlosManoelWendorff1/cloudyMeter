@@ -47,13 +47,13 @@ export function SensorGrid({
           </CardHeader>
           <CardContent className="pt-0">
             <div className="flex items-center justify-between text-sm text-neutral-600">
-              <span>Unit</span>
+              <span>Unidade de Medida</span>
               <span className="font-medium">{s.unit}</span>
             </div>
             <Separator className="my-3" />
             <Button
               className="w-full"
-              variant="secondary"
+              variant="default"
               onClick={() => onSelect(s.id)}
             >
               View readings
