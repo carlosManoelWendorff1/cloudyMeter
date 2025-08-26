@@ -30,7 +30,15 @@
 
 ![Data Model](./diagrams/diagrama%20ER.png)
 
----
+### Sequence
+
+#### Auth
+
+![Auth Sequence](./diagrams/diagrama%20de%20sequencia%20auth.png)
+
+#### MQTT
+
+![MQTT Sequence](./diagrams/diagrama%20de%20sequencia%20mqtt.png)
 
 ## 🛠️ Technologies Used
 
@@ -59,7 +67,6 @@ cd backend/
 Make sure a PostgreSQL instance is running and accessible.
 Create organizations with name and password credentials before starting or use API endpoints to register.
 
-
 ### 3. Database
 
 - Run the SQL scripts located in the `database/` folder to initialize the schema
@@ -76,23 +83,23 @@ npm run dev
 
 ## 📌 Features
 
-- Real-time sensor data monitoring  
-- Historical data storage  
-- Dashboard and graphical visualizations  
-- Support for multiple sensors per device  
-- Support for multiple organizations, each with isolated meters and sensors  
-- User authentication via Basic Auth with session tokens (JWT) managed by the backend  
-- Secure access control ensuring each organization only accesses its own meters and data  
+- Real-time sensor data monitoring
+- Historical data storage
+- Dashboard and graphical visualizations
+- Support for multiple sensors per device
+- Support for multiple organizations, each with isolated meters and sensors
+- User authentication via Basic Auth with session tokens (JWT) managed by the backend
+- Secure access control ensuring each organization only accesses its own meters and data
 
 ---
 
 ## 🔐 Authentication & Authorization
 
-- Users log in using organization credentials (name and password) via Basic Authentication  
-- Backend validates credentials against stored organization data and issues a session token (JWT)  
-- Frontend stores the token and includes it in API requests to authorize access  
-- Backend verifies token validity and enforces access restrictions so organizations can only see their own meters and sensors  
-- Token expiration and session management handled centrally in the backend  
+- Users log in using organization credentials (name and password) via Basic Authentication
+- Backend validates credentials against stored organization data and issues a session token (JWT)
+- Frontend stores the token and includes it in API requests to authorize access
+- Backend verifies token validity and enforces access restrictions so organizations can only see their own meters and sensors
+- Token expiration and session management handled centrally in the backend
 
 ---
 
