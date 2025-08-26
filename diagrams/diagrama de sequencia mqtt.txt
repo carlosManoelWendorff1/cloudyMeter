@@ -1,0 +1,7 @@
+@startuml
+Arduino -> MQTT: publica leitura (temperatura, umidade)
+MQTT -> Backend: envia mensagem
+Backend -> PostgreSQL: persiste leitura
+Backend --> Frontend: envia atualização
+Frontend --> Usuario: exibe leitura em tempo real
+@enduml

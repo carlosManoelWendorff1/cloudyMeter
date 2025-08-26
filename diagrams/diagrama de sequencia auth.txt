@@ -1,0 +1,12 @@
+@startuml
+actor Usuario
+Usuario -> Frontend: login (usuário/senha)
+Frontend -> Backend: autenticação básica
+Backend -> PostgreSQL: valida credenciais (Organization)
+PostgreSQL --> Backend: OK
+Backend --> Frontend: retorna JWT
+Usuario -> Frontend: acessa recurso
+Frontend -> Backend: envia JWT
+Backend -> Backend: valida token
+Backend --> Frontend: retorna dados
+@enduml
