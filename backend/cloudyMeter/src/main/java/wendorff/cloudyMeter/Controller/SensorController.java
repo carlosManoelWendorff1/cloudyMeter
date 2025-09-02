@@ -25,6 +25,11 @@ public class SensorController {
         return service.findById(id).orElse(null);
     }
 
+     @GetMapping("/meter/{id}")
+    public List<Sensor> getByMeterId(@PathVariable Integer id) {
+        return service.findByMeterId(id);
+    }
+
     @PostMapping
     public Sensor create(@RequestBody Sensor sensor) {
         return service.save(sensor);

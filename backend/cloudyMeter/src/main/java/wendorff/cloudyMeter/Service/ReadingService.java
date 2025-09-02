@@ -24,6 +24,10 @@ public class ReadingService {
         return repository.findById(id);
     }
 
+    public List<Reading> findBySensorId(Integer id) {
+        return repository.findBySensorId(id);
+    }
+
     public Reading save(Reading reading) {
         return repository.save(reading);
     }

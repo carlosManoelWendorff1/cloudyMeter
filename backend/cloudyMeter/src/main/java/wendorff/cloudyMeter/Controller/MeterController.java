@@ -20,6 +20,11 @@ public class MeterController {
         return service.findAll();
     }
 
+    @GetMapping("/organization/{id}")
+    public List<Meter> getAllByOrganization(@PathVariable Integer id) {
+        return service.findAllByOrganization(id);
+    }
+
     @GetMapping("/{id}")
     public Meter getById(@PathVariable Integer id) {
         return service.findById(id).orElse(null);

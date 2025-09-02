@@ -19,6 +19,9 @@ public class MeterService {
     public List<Meter> findAll() {
         return repository.findAll();
     }
+     public List<Meter> findAllByOrganization(Integer orgId) {
+        return repository.findByOrganizationId(orgId);
+    }
 
     public Optional<Meter> findById(Integer id) {
         return repository.findById(id);

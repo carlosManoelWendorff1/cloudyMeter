@@ -2,6 +2,8 @@ package wendorff.cloudyMeter.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +20,10 @@ public class Organization {
     private String name;
     private String passwordHash;
 
+    private String telephone;
+
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
+    @JsonManagedReference // inclui meters dentro da organização
     private List<Meter> meters;
 
     public Integer getId() {
@@ -53,7 +58,15 @@ public class Organization {
         this.meters = meters;
     }
 
+    public String getTelephone() {
+        return telephone;
+    }
 
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    
     
 
 }

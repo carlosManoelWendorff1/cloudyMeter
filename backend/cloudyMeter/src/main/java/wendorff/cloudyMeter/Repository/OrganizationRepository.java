@@ -9,5 +9,6 @@ import wendorff.cloudyMeter.Model.Organization;
 
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Integer> {
+    Organization findByTelephone(String telephone);
 }
 

@@ -24,6 +24,10 @@ public class ReadingController {
     public Reading getById(@PathVariable Integer id) {
         return service.findById(id).orElse(null);
     }
+    @GetMapping("/sensor/{id}")
+    public List<Reading> getBySensorId(@PathVariable Integer id) {
+        return service.findBySensorId(id);
+    }
 
     @PostMapping
     public Reading create(@RequestBody Reading reading) {

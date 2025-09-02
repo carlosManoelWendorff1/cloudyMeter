@@ -3,6 +3,9 @@ package wendorff.cloudyMeter.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,10 +28,16 @@ public class Sensor {
 
     @ManyToOne
     @JoinColumn(name = "meter_id")
+    @JsonBackReference // evita loop quando serializando a organização
     private Meter meter;
 
     @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+    @JsonManagedReference 
     private List<Reading> readings;
+
+    @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
+    @JsonManagedReference 
+    private List<Alert> alerts;
 
     public Integer getId() {
         return id;

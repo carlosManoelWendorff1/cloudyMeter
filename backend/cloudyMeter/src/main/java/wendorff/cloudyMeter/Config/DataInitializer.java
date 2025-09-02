@@ -6,10 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import wendorff.cloudyMeter.Model.Alert;
 import wendorff.cloudyMeter.Model.Meter;
 import wendorff.cloudyMeter.Model.Organization;
 import wendorff.cloudyMeter.Model.Reading;
 import wendorff.cloudyMeter.Model.Sensor;
+import wendorff.cloudyMeter.Repository.AlertRepository;
 import wendorff.cloudyMeter.Repository.MeterRepository;
 import wendorff.cloudyMeter.Repository.OrganizationRepository;
 import wendorff.cloudyMeter.Repository.ReadingRepository;
@@ -23,7 +25,8 @@ public class DataInitializer {
             OrganizationRepository orgRepo,
             MeterRepository meterRepo,
             SensorRepository sensorRepo,
-            ReadingRepository readingRepo
+            ReadingRepository readingRepo,
+            AlertRepository alertRepo
     ) {
         return args -> {
             if (orgRepo.count() == 0) {
@@ -31,6 +34,7 @@ public class DataInitializer {
                 Organization org = new Organization();
                 org.setName("OrgTeste");
                 org.setPasswordHash("123456"); // Em produção: usar BCrypt
+                org.setTelephone("12312312312312L");
                 orgRepo.save(org);
 
                 // Criar Meter
@@ -54,6 +58,12 @@ public class DataInitializer {
                 reading.setTime(LocalDateTime.now());
                 reading.setValue(25.5f);
                 readingRepo.save(reading);
+
+                // Criar Alerta
+                Alert alert = new Alert();
+                alert.setMessage("Temperatura alta detectada!");
+                alert.setSensor(tempSensor);
+                alertRepo.save(alert);
 
                 System.out.println("Mock data inserido com sucesso ✅");
             }

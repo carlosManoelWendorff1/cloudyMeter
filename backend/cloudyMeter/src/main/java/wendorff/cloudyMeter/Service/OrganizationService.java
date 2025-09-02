@@ -31,4 +31,9 @@ public class OrganizationService {
     public void delete(Integer id) {
         repository.deleteById(id);
     }
+
+    public Organization findByTelephone(String telefone) {
+        return repository.findByTelephone(telefone);
+    }
+
 }

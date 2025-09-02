@@ -23,6 +23,9 @@ public class SensorService {
     public Optional<Sensor> findById(Integer id) {
         return repository.findById(id);
     }
+    public List<Sensor> findByMeterId(Integer id) {
+        return repository.findByMeterId(id);
+    }
 
     public Sensor save(Sensor sensor) {
         return repository.save(sensor);
