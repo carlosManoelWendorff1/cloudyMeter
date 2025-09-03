@@ -8,21 +8,21 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-
+import wendorff.cloudyMeter.Enum.MeterStatus;
 
 @Entity
 public class Meter {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     private Integer battery;
+
+    private MeterStatus status;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "organization_id")
@@ -33,11 +33,11 @@ public class Meter {
     @JsonManagedReference // permite incluir sensores dentro do meter
     private List<Sensor> sensors;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -65,6 +65,22 @@ public class Meter {
         this.sensors = sensors;
     }
 
+    public MeterStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(MeterStatus status) {
+        this.status = status;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
 }
 

@@ -30,7 +30,7 @@ public class AlertService {
 
         // Pega o chatId do dono da organização
         Organization org = saved.getSensor().getMeter().getOrganization();
-        String chatId = org.getTelephone();
+        String chatId = org.getChatId();
 
         // Notifica no Telegram
         try {

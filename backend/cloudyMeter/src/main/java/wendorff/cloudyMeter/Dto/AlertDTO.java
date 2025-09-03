@@ -3,7 +3,7 @@ package wendorff.cloudyMeter.Dto;
 public class AlertDTO {
     private Integer id;
     private String message;
-    private Integer sensorId;
+    private String sensorId;
 
     // Getters e setters
     public Integer getId() { return id; }
@@ -12,6 +12,6 @@ public class AlertDTO {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
 
-    public Integer getSensorId() { return sensorId; }
-    public void setSensorId(Integer sensorId) { this.sensorId = sensorId; }
+    public String getSensorId() { return sensorId; }
+    public void setSensorId(String sensorId) { this.sensorId = sensorId; }
 }

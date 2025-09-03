@@ -11,6 +11,6 @@ import wendorff.cloudyMeter.Model.Reading;
 
 @Repository
 public interface ReadingRepository extends JpaRepository<Reading, Integer> {
-        List<Reading> findBySensorId(Integer sensorId);
+        List<Reading> findBySensorId(String sensorId);
 
 }

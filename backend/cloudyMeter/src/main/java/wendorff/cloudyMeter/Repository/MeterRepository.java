@@ -11,7 +11,7 @@ import wendorff.cloudyMeter.Model.Meter;
 
 
 @Repository
-public interface MeterRepository extends JpaRepository<Meter, Integer> {
+public interface MeterRepository extends JpaRepository<Meter, String> {
     List<Meter> findByOrganizationId(Integer organizationId);
 
 }

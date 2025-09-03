@@ -34,17 +34,19 @@ public class DataInitializer {
                 Organization org = new Organization();
                 org.setName("OrgTeste");
                 org.setPasswordHash("123456"); // Em produção: usar BCrypt
-                org.setTelephone("12312312312312L");
+                org.setChatId("12312312312312L");
                 orgRepo.save(org);
 
                 // Criar Meter
                 Meter meter = new Meter();
+                meter.setId("00:1A:7D:DA:71:13");
                 meter.setBattery(95);
                 meter.setOrganization(org);
                 meterRepo.save(meter);
 
                 // Criar Sensor
                 Sensor tempSensor = new Sensor();
+                tempSensor.setId(meter.getId() + "-sensor1");
                 tempSensor.setIsDefault(true);
                 tempSensor.setName("TempSensor1");
                 tempSensor.setType("TEMPERATURE");

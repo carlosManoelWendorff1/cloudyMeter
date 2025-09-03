@@ -14,7 +14,7 @@ public class MeterService {
 
     public MeterService(MeterRepository repository) {
         this.repository = repository;
-    }
+      }
 
     public List<Meter> findAll() {
         return repository.findAll();
@@ -23,7 +23,7 @@ public class MeterService {
         return repository.findByOrganizationId(orgId);
     }
 
-    public Optional<Meter> findById(Integer id) {
+    public Optional<Meter> findById(String id) {
         return repository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class MeterService {
         return repository.save(meter);
     }
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         repository.deleteById(id);
     }
 }

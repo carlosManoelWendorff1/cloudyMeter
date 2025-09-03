@@ -20,10 +20,10 @@ public class SensorService {
         return repository.findAll();
     }
 
-    public Optional<Sensor> findById(Integer id) {
+    public Optional<Sensor> findById(String id) {
         return repository.findById(id);
     }
-    public List<Sensor> findByMeterId(Integer id) {
+    public List<Sensor> findByMeterId(String id) {
         return repository.findByMeterId(id);
     }
 
@@ -31,7 +31,7 @@ public class SensorService {
         return repository.save(sensor);
     }
 
-    public void delete(Integer id) {
+    public void delete(String id) {
         repository.deleteById(id);
     }
 }

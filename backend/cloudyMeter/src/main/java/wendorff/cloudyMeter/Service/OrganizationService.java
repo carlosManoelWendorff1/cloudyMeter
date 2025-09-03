@@ -32,8 +32,8 @@ public class OrganizationService {
         repository.deleteById(id);
     }
 
-    public Organization findByTelephone(String telefone) {
-        return repository.findByTelephone(telefone);
+    public Organization findByChatId(String chatId) {
+        return repository.findByChatId(chatId);
     }
 
 }

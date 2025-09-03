@@ -20,7 +20,7 @@ public class Organization {
     private String name;
     private String passwordHash;
 
-    private String telephone;
+    private String chatId;
 
     @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     @JsonManagedReference // inclui meters dentro da organização
@@ -58,12 +58,12 @@ public class Organization {
         this.meters = meters;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
     

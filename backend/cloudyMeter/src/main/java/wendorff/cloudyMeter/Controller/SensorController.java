@@ -21,12 +21,12 @@ public class SensorController {
     }
 
     @GetMapping("/{id}")
-    public Sensor getById(@PathVariable Integer id) {
+    public Sensor getById(@PathVariable String id) {
         return service.findById(id).orElse(null);
     }
 
      @GetMapping("/meter/{id}")
-    public List<Sensor> getByMeterId(@PathVariable Integer id) {
+    public List<Sensor> getByMeterId(@PathVariable String id) {
         return service.findByMeterId(id);
     }
 
@@ -36,13 +36,13 @@ public class SensorController {
     }
 
     @PutMapping("/{id}")
-    public Sensor update(@PathVariable Integer id, @RequestBody Sensor sensor) {
+    public Sensor update(@PathVariable String id, @RequestBody Sensor sensor) {
         sensor.setId(id);
         return service.save(sensor);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable String id) {
         service.delete(id);
     }
 }

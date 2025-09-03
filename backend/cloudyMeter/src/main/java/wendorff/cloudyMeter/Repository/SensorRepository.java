@@ -11,7 +11,7 @@ import wendorff.cloudyMeter.Model.Sensor;
 
 
 @Repository
-public interface SensorRepository extends JpaRepository<Sensor, Integer> {
-        List<Sensor> findByMeterId(Integer meterId);
+public interface SensorRepository extends JpaRepository<Sensor, String> {
+        List<Sensor> findByMeterId(String meterId);
 
 }

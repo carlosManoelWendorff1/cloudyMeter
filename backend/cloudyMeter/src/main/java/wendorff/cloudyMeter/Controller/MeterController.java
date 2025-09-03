@@ -26,7 +26,7 @@ public class MeterController {
     }
 
     @GetMapping("/{id}")
-    public Meter getById(@PathVariable Integer id) {
+    public Meter getById(@PathVariable String id) {
         return service.findById(id).orElse(null);
     }
 
@@ -36,13 +36,13 @@ public class MeterController {
     }
 
     @PutMapping("/{id}")
-    public Meter update(@PathVariable Integer id, @RequestBody Meter meter) {
+    public Meter update(@PathVariable String id, @RequestBody Meter meter) {
         meter.setId(id);
         return service.save(meter);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable String id) {
         service.delete(id);
     }
 }

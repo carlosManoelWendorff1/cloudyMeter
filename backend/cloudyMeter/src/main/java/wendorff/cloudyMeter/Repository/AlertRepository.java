@@ -13,6 +13,6 @@ import wendorff.cloudyMeter.Model.Organization;
 
 @Repository
 public interface AlertRepository extends JpaRepository<Alert, Integer> {
-        List<Alert> findBySensorId(Integer sensorId);
+        List<Alert> findBySensorId(String sensorId);
         List<Alert> findBySensorMeterOrganization(Organization organization);
 }
