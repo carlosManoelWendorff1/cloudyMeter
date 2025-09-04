@@ -23,12 +23,12 @@ export function SensorChart({
       tooltip: { trigger: "axis" },
       grid: { top: 24, right: 16, bottom: 40, left: 48 },
       xAxis: { type: "time" },
-      yAxis: { type: "value", name: unit },
+      yAxis: { type: "value", name: unit, nameLocation: "end", nameGap: 0 },
       series: [
         {
           type: "line",
           name: title,
-          showSymbol: false,
+          showSymbol: true,
           smooth: true,
           data: readings.map((r) => [r.time, r.value]),
           areaStyle: {},
@@ -38,16 +38,16 @@ export function SensorChart({
   }, [readings, unit, title]);
 
   return (
-    <Card className="w-full">
-      <CardHeader>
+    <Card className="w-full h-full">
+      <CardHeader className="mb-10">
         <CardTitle>{title}</CardTitle>
         <CardDescription>Last 24 hours</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="h-[320px]">
+        <div className="h-[300px]">
           <ReactECharts
             option={option}
-            style={{ height: 320 }}
+            style={{ height: "100%", width: "100%" }}
             notMerge
             lazyUpdate
           />

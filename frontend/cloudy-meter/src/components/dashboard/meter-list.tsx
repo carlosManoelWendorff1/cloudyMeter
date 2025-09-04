@@ -9,6 +9,7 @@ import {
 } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import { StatusBadge } from "./status-badge";
+import { MeterStatus } from "@/types/enums/MeterStatus";
 
 export function MeterList({
   items,

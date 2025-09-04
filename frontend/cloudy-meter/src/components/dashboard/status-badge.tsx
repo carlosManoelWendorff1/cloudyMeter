@@ -1,18 +1,19 @@
 import { Meter } from "@/types/meter";
 import { Badge } from "../ui/badge";
+import { MeterStatus } from "@/types/enums/MeterStatus";
 
 export function StatusBadge({ status }: { status: Meter["status"] }) {
-  const map: Record<
-    Meter["status"],
-    {
-      label: string;
-      variant: "primary" | "secondary" | "error" | "neutral";
+  const getVariant = (status: MeterStatus) => {
+    switch (status) {
+      case MeterStatus.PROVISIONED:
+        return "neutral";
+      case MeterStatus.ACTIVE:
+        return "primary";
+      case MeterStatus.INACTIVE:
+        return "error";
+      case MeterStatus.UNKNOWN:
+        return "secondary";
     }
-  > = {
-    online: { label: "Online", variant: "primary" },
-    offline: { label: "Offline", variant: "error" },
-    maintenance: { label: "Maintenance", variant: "neutral" },
   };
-  const cfg = map[status];
-  return <Badge variant={cfg.variant}>{cfg.label}</Badge>;
+  return <Badge variant={getVariant(status)}>{status}</Badge>;
 }

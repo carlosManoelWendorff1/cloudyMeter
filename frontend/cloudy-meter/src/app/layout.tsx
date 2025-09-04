@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,7 +30,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <SidebarProvider>
+          {children}
+          <ToastContainer position="top-right" autoClose={3000} />
+        </SidebarProvider>
       </body>
     </html>
   );

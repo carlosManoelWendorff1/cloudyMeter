@@ -1,6 +1,8 @@
+import { MeterStatus } from "./enums/MeterStatus";
+
 export type Meter = {
   id: string;
   name: string;
-  status: "online" | "offline" | "maintenance";
-  battery: number; // 0..100
+  status: MeterStatus;
+  battery: number | undefined; // 0..100
 };

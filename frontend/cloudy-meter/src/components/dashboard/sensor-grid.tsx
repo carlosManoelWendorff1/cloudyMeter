@@ -17,7 +17,7 @@ export function SensorGrid({
   selectedId,
 }: {
   sensors: Sensor[];
-  onSelect: (id: string) => void;
+  onSelect: (id: Sensor) => void;
   selectedId?: string;
 }) {
   if (!sensors.length) {
@@ -54,7 +54,7 @@ export function SensorGrid({
             <Button
               className="w-full"
               variant="default"
-              onClick={() => onSelect(s.id)}
+              onClick={() => onSelect(s)}
             >
               View readings
             </Button>
