@@ -13,9 +13,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api-client";
 
 type LoginFormValues = {
-  username: string;
+  name: string;
   password: string;
 };
 
@@ -30,11 +31,22 @@ export function LoginForm({
   } = useForm<LoginFormValues>();
   const router = useRouter();
 
-  function onSubmit(data: LoginFormValues) {
-    localStorage.setItem("auth", "true");
-    localStorage.setItem("user", data.username);
-    router.push("/dashboard");
+  async function onSubmit(data: LoginFormValues) {
+    const response = await apiFetch<string>(
+      "/auth/login",
+      "Falha ao realizar login",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    if (response) {
+      localStorage.setItem("auth", response);
+      localStorage.setItem("user", data.name);
+      router.push("/dashboard");
+    }
   }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -50,15 +62,15 @@ export function LoginForm({
               <div className="grid gap-3">
                 <Label htmlFor="username">Username</Label>
                 <Input
-                  id="username"
+                  id="name"
                   placeholder="..."
-                  {...register("username", {
-                    required: "username is required",
+                  {...register("name", {
+                    required: "name is required",
                   })}
                 />
-                {errors.username && (
+                {errors.name && (
                   <span className="text-sm text-error">
-                    {errors.username.message}
+                    {errors.name.message}
                   </span>
                 )}
               </div>

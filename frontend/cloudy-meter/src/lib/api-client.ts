@@ -17,7 +17,7 @@ export async function apiFetch<T>(
       ...options,
     });
 
-    if (!res.ok) {
+    if (res.ok === false) {
       const defaultMessage = `Erro ${res.status}: ${
         res.statusText.length > 0 ? res.statusText : "Not Found or Server Error"
       }`;
@@ -28,6 +28,7 @@ export async function apiFetch<T>(
 
     return (await res.json()) as T;
   } catch (err: any) {
+    console.error("API Fetch Error:", err);
     toast.error(customErrorMessage || `Falha de conexão: ${err.message}`);
     return null;
   }
