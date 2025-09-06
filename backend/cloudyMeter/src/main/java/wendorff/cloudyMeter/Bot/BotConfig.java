@@ -7,10 +7,18 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 public class BotConfig {
+
+    private boolean registered = false;
+
     @Bean
     public TelegramBotsApi telegramBotsApi(Bot bot) throws Exception {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        botsApi.registerBot(bot);
+
+        if (!registered) {
+            botsApi.registerBot(bot);
+            registered = true;
+        }
+
         return botsApi;
     }
 }

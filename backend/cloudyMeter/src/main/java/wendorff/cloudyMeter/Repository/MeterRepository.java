@@ -13,6 +13,6 @@ import wendorff.cloudyMeter.Model.Meter;
 @Repository
 public interface MeterRepository extends JpaRepository<Meter, String> {
     List<Meter> findByOrganizationId(Integer organizationId);
-
+    List<Meter> findByOrganizationName(String organizationName);
 }
 

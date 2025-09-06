@@ -23,6 +23,10 @@ public class MeterService {
         return repository.findByOrganizationId(orgId);
     }
 
+    public List<Meter> findAllByOrganizationName(String orgName) {
+        return repository.findByOrganizationName(orgName);
+    }
+
     public Optional<Meter> findById(String id) {
         return repository.findById(id);
     }

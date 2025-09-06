@@ -1,5 +1,6 @@
 package wendorff.cloudyMeter.Controller;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import wendorff.cloudyMeter.Model.Meter;
 import wendorff.cloudyMeter.Service.MeterService;
@@ -19,7 +20,11 @@ public class MeterController {
     public List<Meter> getAll() {
         return service.findAll();
     }
-
+    @GetMapping("/list")
+    public List<Meter> getAllByOrganizationToken(Authentication authentication) {
+        String orgName = authentication.getName(); // vem do subject do token
+        return service.findAllByOrganizationName(orgName);
+    }
     @GetMapping("/organization/{id}")
     public List<Meter> getAllByOrganization(@PathVariable Integer id) {
         return service.findAllByOrganization(id);
