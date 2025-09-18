@@ -22,25 +22,20 @@ import { apiFetch } from "@/lib/api-client";
 interface DashboardClientProps {
   organizationId?: string;
 }
-export const DashboardClient: FC<DashboardClientProps> = ({
-  organizationId,
-}) => {
+export const DashboardClient: FC<DashboardClientProps> = () => {
   const [meters, setMeters] = useState<Meter[]>([]);
   const [sensors, setSensors] = useState<Sensor[]>([]);
   const [readings, setReadings] = useState<Reading[]>([]);
   const [selectedMeterId, setSelectedMeterId] = useState<string>();
   const [selectedSensor, setSelectedSensor] = useState<Sensor>();
-  // fetch + polling igual você já tem...
-  // ...
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
   useEffect(() => {
-    apiFetch<Meter[]>(`/meters/organization/2`, "Error fetching meters").then(
-      (data) => {
-        if (data) setMeters(data);
-      }
-    );
+    apiFetch<Meter[]>(`/meters/list`, "Error fetching meters").then((data) => {
+      console.log("Fetched meters:", data);
+      if (data) setMeters(data);
+    });
   }, []);
 
   useEffect(() => {

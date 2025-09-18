@@ -32,7 +32,7 @@ export function LoginForm({
   const router = useRouter();
 
   async function onSubmit(data: LoginFormValues) {
-    const response = await apiFetch<string>(
+    const response = await apiFetch<{ token: string }>(
       "/auth/login",
       "Falha ao realizar login",
       {
@@ -40,8 +40,9 @@ export function LoginForm({
         body: JSON.stringify(data),
       }
     );
+    console.log("Login response:", response);
     if (response) {
-      localStorage.setItem("auth", response);
+      localStorage.setItem("auth", response.token);
       localStorage.setItem("user", data.name);
       router.push("/dashboard");
     }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -11,9 +12,15 @@ export async function apiFetch<T>(
 ): Promise<T | null> {
   try {
     const res = await fetch(`${API_URL}${endpoint}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers:
+        endpoint === "/auth/login"
+          ? {
+              "Content-Type": "application/json",
+            }
+          : {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("auth") || ""}`,
+            },
       ...options,
     });
 
