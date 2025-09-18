@@ -1,5 +1,7 @@
 package wendorff.cloudyMeter.Model;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -22,6 +24,7 @@ public class Alert {
     @JsonBackReference // evita loop quando serializando a organização
     private Sensor sensor;
 
+    private LocalDateTime time;
 
     public Integer getId() {
         return id;
@@ -50,11 +53,18 @@ public class Alert {
     public Alert() {
     }
 
-    public Alert(Integer id, String message, Sensor sensor) {
-        this.id = id;
+    public Alert(String message, Sensor sensor) {
         this.message = message;
         this.sensor = sensor;
+        this.time = LocalDateTime.now();
     }
-    
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
 }

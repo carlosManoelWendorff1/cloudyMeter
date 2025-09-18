@@ -1,6 +1,5 @@
 package wendorff.cloudyMeter.Model;
 
-
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -24,32 +23,62 @@ public class Sensor {
     private String type; // TEMPERATURE, HUMIDITY, PRESSURE, GENERIC
     private String unit;
 
+    private Double minThreshold;
+    private Double maxThreshold;
+    private Boolean thresholdEnabled;
+
     @ManyToOne
     @JoinColumn(name = "meter_id")
     @JsonBackReference // evita loop quando serializando a organização
     private Meter meter;
 
     @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
-    @JsonManagedReference 
+    @JsonManagedReference
     private List<Reading> readings;
 
     @OneToMany(mappedBy = "sensor", cascade = CascadeType.ALL)
-    @JsonManagedReference 
+    @JsonManagedReference
     private List<Alert> alerts;
 
     public Sensor() {
     }
-    public Sensor(Boolean isDefault, String name, String type, String unit,String id, Meter meter) {
+
+    public Sensor(Boolean isDefault, String name, String type, String unit, String id, Meter meter) {
         this.isDefault = isDefault;
         this.name = name;
         this.type = type;
         this.unit = unit;
         this.id = id;
         this.meter = meter;
+
     }
 
     public String getId() {
         return id;
+    }
+
+    public Double getMinThreshold() {
+        return minThreshold;
+    }
+
+    public void setMinThreshold(Double minThreshold) {
+        this.minThreshold = minThreshold;
+    }
+
+    public Double getMaxThreshold() {
+        return maxThreshold;
+    }
+
+    public void setMaxThreshold(Double maxThreshold) {
+        this.maxThreshold = maxThreshold;
+    }
+
+    public Boolean getThresholdEnabled() {
+        return thresholdEnabled;
+    }
+
+    public void setThresholdEnabled(Boolean thresholdEnabled) {
+        this.thresholdEnabled = thresholdEnabled;
     }
 
     public void setId(String id) {
@@ -111,7 +140,5 @@ public class Sensor {
     public void setAlerts(List<Alert> alerts) {
         this.alerts = alerts;
     }
-    
 
 }
-

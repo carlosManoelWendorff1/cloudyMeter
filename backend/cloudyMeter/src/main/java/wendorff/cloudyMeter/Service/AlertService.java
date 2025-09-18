@@ -22,12 +22,11 @@ public class AlertService {
     private Bot bot;
 
     public Alert createAlert(AlertDTO alert) {
-        Alert entity = new Alert();
-        entity.setMessage(alert.getMessage());
-        entity.setSensor(sensorRepository.findById(alert.getSensorId()).orElseThrow());
+        Alert entity = new Alert(
+                alert.getMessage(),
+                sensorRepository.findById(alert.getSensorId()).orElseThrow());
 
         Alert saved = alertRepository.save(entity);
-
         // Pega o chatId do dono da organização
         Organization org = saved.getSensor().getMeter().getOrganization();
         String chatId = org.getChatId();
@@ -35,8 +34,8 @@ public class AlertService {
         // Notifica no Telegram
         try {
             bot.notifyOrganization(chatId,
-                "🚨 Novo alerta!\nSensor: " + saved.getSensor().getName() +
-                "\nMensagem: " + saved.getMessage());
+                    "🚨 Novo alerta!\nSensor: " + saved.getSensor().getName() +
+                            "\nMensagem: " + saved.getMessage());
         } catch (Exception e) {
             // Logue o erro, mas não interrompa o fluxo
             System.err.println("Erro ao notificar no Telegram: " + e.getMessage());
@@ -44,7 +43,12 @@ public class AlertService {
 
         return saved;
     }
+
     public List<Alert> findByOrganization(Organization org) {
         return alertRepository.findBySensorMeterOrganization(org);
+    }
+
+    public List<Alert> getAlertsBySensor(String sensorId) {
+        return alertRepository.findBySensorId(sensorId);
     }
 }

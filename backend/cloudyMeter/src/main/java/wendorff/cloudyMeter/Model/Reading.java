@@ -60,5 +60,13 @@ public class Reading {
         this.sensor = sensor;
     }
 
+    public Reading() {
+    }
+
+    public Reading(Float value, LocalDateTime time, Sensor sensor) {
+        this.value = value;
+        this.time = time;
+        this.sensor = sensor;
+    }
 
 }

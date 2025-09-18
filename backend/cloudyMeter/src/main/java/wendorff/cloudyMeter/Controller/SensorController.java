@@ -1,6 +1,8 @@
 package wendorff.cloudyMeter.Controller;
 
 import org.springframework.web.bind.annotation.*;
+
+import wendorff.cloudyMeter.Dto.TresholdDTO;
 import wendorff.cloudyMeter.Model.Sensor;
 import wendorff.cloudyMeter.Service.SensorService;
 
@@ -25,7 +27,7 @@ public class SensorController {
         return service.findById(id).orElse(null);
     }
 
-     @GetMapping("/meter/{id}")
+    @GetMapping("/meter/{id}")
     public List<Sensor> getByMeterId(@PathVariable String id) {
         return service.findByMeterId(id);
     }
@@ -44,5 +46,28 @@ public class SensorController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         service.delete(id);
+    }
+
+    @PostMapping("/{id}/thresholds")
+    public Sensor setThresholds(
+            @PathVariable String id,
+            @RequestBody TresholdDTO thresholdData) {
+
+        return service.setThresholds(
+                id,
+                thresholdData);
+    }
+
+    // Novo endpoint para obter informações de thresholds
+    @GetMapping("/{id}/thresholds")
+    public TresholdDTO getThresholds(@PathVariable String id) {
+        Sensor sensor = service.findById(id).orElse(null);
+        if (sensor == null) {
+            return null;
+        }
+        return new TresholdDTO(
+                sensor.getMinThreshold(),
+                sensor.getMaxThreshold(),
+                sensor.getThresholdEnabled());
     }
 }
