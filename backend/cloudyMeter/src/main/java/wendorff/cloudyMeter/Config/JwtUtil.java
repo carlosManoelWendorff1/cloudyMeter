@@ -1,4 +1,5 @@
 package wendorff.cloudyMeter.Config;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -13,11 +14,11 @@ public class JwtUtil {
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String organizationName) {
+    public String generateToken(String subject, long validityMillis) {
         return Jwts.builder()
-                .setSubject(organizationName)
+                .setSubject(subject)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1h
+                .setExpiration(new Date(System.currentTimeMillis() + validityMillis))
                 .signWith(key)
                 .compact();
     }

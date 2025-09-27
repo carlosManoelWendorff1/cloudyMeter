@@ -45,20 +45,23 @@ public class ReadingService {
         if (sensor == null) {
             throw new IllegalArgumentException("Sensor not found");
         }
-        if (sensor.getThresholdEnabled() != null && sensor.getThresholdEnabled()) {
-            if (readingDTO.getValue() < sensor.getMinThreshold()
-                    || readingDTO.getValue() > sensor.getMaxThreshold()) {
-                alertService.createAlert(
-                        new AlertDTO(sensor.getId(),
-                                readingDTO.getValue() < sensor.getMinThreshold()
-                                        ? "Valor Mínimo Não Atingido, esperado " + sensor.getMinThreshold()
-                                                + " mas foi "
-                                                + readingDTO.getValue()
-                                        : "Valor Máximo ultrapassado, esperado " + sensor.getMaxThreshold()
-                                                + " mas foi "
-                                                + readingDTO.getValue()));
+
+        if (Boolean.TRUE.equals(sensor.getThresholdEnabled())) {
+            Float value = readingDTO.getValue();
+            Double min = sensor.getMinThreshold();
+            Double max = sensor.getMaxThreshold();
+
+            if ((min != null && value < min) || (max != null && value > max)) {
+                String message;
+                if (min != null && value < min) {
+                    message = "Valor Mínimo Não Atingido, esperado " + min + " mas foi " + value;
+                } else {
+                    message = "Valor Máximo ultrapassado, esperado " + max + " mas foi " + value;
+                }
+                alertService.createAlert(new AlertDTO(sensor.getId(), message));
             }
         }
+
         Reading reading = new Reading(readingDTO.getValue(), readingDTO.getTime(), sensor);
         return repository.save(reading);
     }
