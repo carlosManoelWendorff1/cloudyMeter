@@ -1,15 +1,8 @@
 import { cn } from "@/lib/utils";
 import { Meter } from "@/types/meter";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { ScrollArea } from "../ui/scroll-area";
 import { StatusBadge } from "./status-badge";
-import { MeterStatus } from "@/types/enums/MeterStatus";
 
 export function MeterList({
   items,
@@ -21,37 +14,26 @@ export function MeterList({
   onSelect: (id: string) => void;
 }) {
   return (
-    <Card className="h-full ">
-      <CardHeader>
-        <CardTitle>Meters</CardTitle>
-        <CardDescription>Select a meter to view sensors</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[60vh] pr-2">
-          <div className="flex flex-col gap-2">
+    <Card className="h-full flex flex-col shadow-none border-none border-neutral-200">
+      <CardContent className="flex-1 p-0">
+        <ScrollArea className="h-full">
+          <div className="flex flex-col divide-y divide-neutral-200">
             {items.map((m) => (
               <button
                 key={m.id}
                 onClick={() => onSelect(m.id)}
                 className={cn(
-                  "w-full text-left rounded-xl p-3 border transition hover:bg-primary-50",
+                  "w-full text-left p-4 transition-colors rounded-none flex flex-col hover:bg-primary-50",
                   selectedId === m.id
-                    ? "border-primary-500 bg-primary-50"
-                    : "border-neutral-200"
+                    ? "bg-primary-100 border-l-4 border-primary-500 border-b-0 border-t-0 border-r-0"
+                    : ""
                 )}
               >
-                <div className="flex items-center justify-between">
-                  <div className="font-medium">{m.name}</div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-medium text-primary">{m.name}</span>
                   <StatusBadge status={m.status} />
                 </div>
-                <div className="mt-1 text-xs text-neutral-500">ID: {m.id}</div>
-                <div className="mt-1 h-2 w-full rounded bg-neutral-200">
-                  <div
-                    className="h-2 rounded bg-secondary-500"
-                    style={{ width: `${m.battery}%` }}
-                    aria-label={`Battery ${m.battery}%`}
-                  />
-                </div>
+                <span className="text-xs text-neutral-500">ID: {m.id}</span>
               </button>
             ))}
           </div>

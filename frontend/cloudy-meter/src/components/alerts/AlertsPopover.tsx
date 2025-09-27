@@ -55,27 +55,22 @@ export default function AlertsPopover({ sensorId }: AlertsPopoverProps) {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="icon" className="relative">
-          <Bell
-            className={cn(
-              "h-5 w-5 transition-colors",
-              hasAlerts ? "text-red-600 animate-bounce" : "text-gray-600"
-            )}
-          />
+          <Bell className={cn("h-5 w-5 transition-colors")} />
           {hasAlerts && (
-            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-600 animate-pulse" />
+            <span className="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-error-600 animate-pulse" />
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-64">
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-2">
-            <CloudAlertIcon className="w-5 h-5 text-red-600" />
-            <span className="font-semibold text-red-700 text-base">
+            <CloudAlertIcon className="w-5 h-5 text-error-600" />
+            <span className="font-semibold text-error-700 text-base">
               Últimos alertas
             </span>
           </div>
           {loading ? (
-            <p className="text-sm text-gray-500">Carregando...</p>
+            <p className="text-sm text-neutral-500">Carregando...</p>
           ) : alerts.length > 0 ? (
             alerts
               .slice(-5)
@@ -83,13 +78,13 @@ export default function AlertsPopover({ sensorId }: AlertsPopoverProps) {
               .map((alert) => (
                 <div
                   key={alert.id}
-                  className="rounded-lg border p-3 text-sm shadow bg-gradient-to-r from-red-50 to-red-100 border-red-200 text-red-800 flex flex-col items-start"
+                  className="rounded-lg border p-3 text-sm shadow bg-gradient-to-r from-error-100 to-error-200 border-error-200 text-error-800 flex flex-col items-start"
                 >
                   <div className="flex items-center gap-2">
                     <span className="font-medium">{alert.message}</span>
                   </div>
                   {alert.time && (
-                    <span className="text-xs text-gray-500 mt-1">
+                    <span className="text-xs text-neutral-500 mt-1">
                       {new Date(alert.time).toLocaleTimeString("pt-BR", {
                         hour: "2-digit",
                         minute: "2-digit",
@@ -100,7 +95,9 @@ export default function AlertsPopover({ sensorId }: AlertsPopoverProps) {
                 </div>
               ))
           ) : (
-            <p className="text-sm text-gray-500 text-center">Nenhum alerta</p>
+            <p className="text-sm text-neutral-500 text-center">
+              Nenhum alerta
+            </p>
           )}
         </div>
       </PopoverContent>

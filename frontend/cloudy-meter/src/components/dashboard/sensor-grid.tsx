@@ -14,56 +14,63 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { ThresholdAlertDialog } from "../alerts/TreshholdAlertDialog";
 import AlertsPopover from "../alerts/AlertsPopover";
+import { useRouter, usePathname } from "next/navigation";
 
-export function SensorGrid({
-  sensors,
-  onSelect,
-  selectedId,
-}: {
-  sensors: Sensor[];
-  onSelect: (id: Sensor) => void;
-  selectedId?: string;
-}) {
+export function SensorGrid({ sensors }: { sensors: Sensor[] }) {
+  const router = useRouter();
+  const pathName = usePathname();
+  const selectedSensorId = pathName?.split("/")[3] || "";
+
   return (
-    <div className="grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-1  md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-      {sensors.map((s) => {
-        return (
-          <Card
-            key={s.id}
-            className={cn(selectedId === s.id && "ring-2 ring-primary-500")}
-          >
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base flex items-center justify-between">
-                <span>{s.name}</span>
-                <Badge variant="outline">{s.type}</Badge>
-              </CardTitle>
-              <CardDescription>ID: {s.id}</CardDescription>
-            </CardHeader>
+    <div className="p-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 min-h-screen">
+      {sensors.map((s, index) => (
+        <Card
+          key={s.id}
+          className={cn(
+            selectedSensorId === s.id && "ring-2 ring-primary-500",
+            "h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-2xl",
+            index === 0 || index === 1
+              ? "lg:col-span-3 md:col-span-2 sm:col-span-1"
+              : "xl:col-span-2 lg:col-span-3 md:col-span-2 sm:col-span-1"
+          )}
+        >
+          {/* Cabeçalho */}
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center justify-between">
+              <span>{s.name}</span>
+              <Badge variant="outline">{s.type}</Badge>
+            </CardTitle>
+            <CardDescription>ID: {s.id}</CardDescription>
+          </CardHeader>
 
-            <CardContent className="pt-0 space-y-3">
+          {/* Alertas no topo */}
+          <div className="flex items-center justify-between px-4">
+            <ThresholdAlertDialog sensorId={s.id} />
+            <AlertsPopover sensorId={s.id} />
+          </div>
+
+          <CardContent className="pt-3 flex-1 flex flex-col justify-between">
+            {/* Informações do sensor */}
+            <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between text-sm text-neutral-600">
                 <span>Unidade de Medida</span>
                 <span className="font-medium">{s.unit}</span>
               </div>
 
               <Separator />
+            </div>
 
-              <div className="flex items-center justify-between gap-2">
-                <ThresholdAlertDialog sensorId={s.id} />
-                <AlertsPopover sensorId={s.id} />
-              </div>
-
-              <Button
-                className="w-full"
-                variant="default"
-                onClick={() => onSelect(s)}
-              >
-                View readings
-              </Button>
-            </CardContent>
-          </Card>
-        );
-      })}
+            {/* Botão no final */}
+            <Button
+              className="w-full mt-4"
+              variant="default"
+              onClick={() => router.push(`/dashboard/readings/${s.id}`)}
+            >
+              View readings
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

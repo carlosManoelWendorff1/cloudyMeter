@@ -28,7 +28,7 @@ export function SearchForm({ onSearchSubmit, ...props }: SearchFormProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} {...props}>
-      <SidebarGroup className="py-0">
+      <SidebarGroup className="py-2">
         <SidebarGroupContent className="relative">
           <Label htmlFor="search" className="sr-only">
             Search
@@ -36,8 +36,8 @@ export function SearchForm({ onSearchSubmit, ...props }: SearchFormProps) {
 
           <SidebarInput
             id="search"
-            placeholder="Search the docs..."
-            className="pl-8"
+            placeholder="Pesquisar Medidores..."
+            className="pl-10 rounded-xl border border-primary-200 bg-neutral-50 shadow-sm focus:border-primary-400 focus:ring-1 focus:ring-primary-300 transition"
             {...register("search")}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -47,7 +47,7 @@ export function SearchForm({ onSearchSubmit, ...props }: SearchFormProps) {
             }}
           />
 
-          <Search className="pointer-events-none absolute top-1/2 left-2 size-4 -translate-y-1/2 opacity-50 select-none" />
+          <Search className="pointer-events-none absolute top-1/2 left-3 w-5 h-5 -translate-y-1/2 text-primary-400 opacity-70 select-none" />
         </SidebarGroupContent>
       </SidebarGroup>
     </form>

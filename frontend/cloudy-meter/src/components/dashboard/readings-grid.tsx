@@ -1,7 +1,21 @@
+"use client";
 import { Reading } from "@/types/reading";
 import { AgGridReact } from "ag-grid-react";
-import { useMemo, useRef, useState } from "react";
-import { ColDef, GridApi } from "ag-grid-community";
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  ClientSideRowModelModule,
+  ColDef,
+  colorSchemeDark,
+  colorSchemeLight,
+  CustomFilterModule,
+  DateFilterModule,
+  GridApi,
+  ModuleRegistry,
+  NumberFilterModule,
+  TextFilterModule,
+  themeAlpine,
+  ValidationModule,
+} from "ag-grid-community";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import {
   Card,
@@ -17,6 +31,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useTheme } from "next-themes";
 
 export function ReadingsGrid({ rows }: { rows: Reading[] }) {
   const gridRef = useRef<GridApi | null>(null);
@@ -39,7 +54,15 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
     []
   );
 
-  // Dados da página atual
+  ModuleRegistry.registerModules([
+    ClientSideRowModelModule,
+    ValidationModule,
+    TextFilterModule,
+    NumberFilterModule,
+    DateFilterModule,
+    CustomFilterModule,
+  ]); // Dados da página atual
+
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * pageSize;
     return rows.slice(start, start + pageSize);
@@ -50,6 +73,10 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
     resizable: true,
     flex: 1,
   };
+  const theme = useTheme().theme;
+  const gridTheme = themeAlpine.withPart(
+    theme === "dark" ? colorSchemeDark : colorSchemeLight
+  );
 
   return (
     <Card className="w-full">
@@ -58,11 +85,15 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
         <CardDescription>Tabular readings</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="ag-theme-quartz" style={{ height: 400, width: "100%" }}>
+        <div
+          className="ag-theme-alpine-dark"
+          style={{ height: 400, width: "100%" }}
+        >
           <AgGridReact
             rowData={paginatedData}
             columnDefs={columnDefs}
             defaultColDef={defaultColDef}
+            theme={gridTheme}
             animateRows
           />
         </div>
