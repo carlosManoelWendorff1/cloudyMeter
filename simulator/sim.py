@@ -14,7 +14,7 @@ import paho.mqtt.client as mqtt
 # Configurações do broker MQTT
 BROKER = "broker.hivemq.com"   # ou "test.mosquitto.org"
 PORT = 1883
-TOPIC = "meu/dispositivo/leitura"
+TOPIC = "cloudymeter/readings"
 
 # Cliente MQTT
 client = mqtt.Client(client_id=f"dashboard-{uuid.uuid4()}")
@@ -35,7 +35,10 @@ def generate_reading(sensor_id: str):
 
 def publisher_loop():
     global running
-    sensor_ids = [f"sensor-{i}" for i in range(1, 6)]  # 5 sensores
+    baseUmidade_sensor_id = "MAC-sensorBaseUmidade"
+    baseTemperatura_sensor_id = "MAC-sensorBaseTemperatura"
+
+    sensor_ids = [f"MAC-sensor{i}" for i in range(1, 4)]  # 3 sensores
 
     while running:
         for sensor_id in sensor_ids:
@@ -43,6 +46,15 @@ def publisher_loop():
             payload = json.dumps(reading)
             client.publish(TOPIC, payload, qos=1)
             print(f"📤 Publicado: {payload}")
+        reading = generate_reading(baseUmidade_sensor_id)
+        payload = json.dumps(reading)
+        client.publish(TOPIC, payload, qos=1)
+        print(f"📤 Publicado: {payload}")
+        reading = generate_reading(baseTemperatura_sensor_id)
+        payload = json.dumps(reading)
+        client.publish(TOPIC, payload, qos=1)
+        print(f"📤 Publicado: {payload}")
+
         time.sleep(5)  # publica a cada 5s
 
 # Criando o app Dash
