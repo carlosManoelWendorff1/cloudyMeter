@@ -55,7 +55,7 @@ def publisher_loop():
         client.publish(TOPIC, payload, qos=1)
         print(f"📤 Publicado: {payload}")
 
-        time.sleep(5)  # publica a cada 5s
+        time.sleep(30)  # publica a cada 5s
 
 # Criando o app Dash
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
