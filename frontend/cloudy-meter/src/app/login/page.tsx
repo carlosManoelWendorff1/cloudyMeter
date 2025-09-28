@@ -16,7 +16,7 @@ export default function Page() {
       </div>
 
       {/* Login Card */}
-      <div className="bg-neutral-50 p-10 rounded-2xl shadow-lg w-full max-w-sm">
+      <div className="bg-neutral-50 p-10 rounded-2xl shadow-lg w-full max-w-lg">
         <LoginForm />
       </div>
     </div>

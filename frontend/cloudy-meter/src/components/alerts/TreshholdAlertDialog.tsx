@@ -104,6 +104,7 @@ export const ThresholdAlertDialog = ({
                       type="number"
                       placeholder="Ex: 10"
                       min={-100}
+                      value={field.value ?? ""}
                       max={form.getValues("max") ?? 100}
                       {...field}
                     />
@@ -124,6 +125,7 @@ export const ThresholdAlertDialog = ({
                       placeholder="Ex: 100"
                       min={form.getValues("min") ?? 0}
                       max={100}
+                      value={field.value ?? ""}
                       {...field}
                     />
                   </FormControl>

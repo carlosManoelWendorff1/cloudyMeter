@@ -33,13 +33,17 @@ export function AppSidebar({ meters, ...props }: AppSidebarProps) {
     [filterText, meters]
   );
 
+  console.log(filteredMeters);
   return (
     <Sidebar
       className="bg-primary-50 border-r border-primary-100 shadow-md flex flex-col justify-between"
       {...props}
     >
       {/* Header */}
-      <SidebarHeader className="px-6 pt-8 pb-6">
+      <SidebarHeader
+        className="px-6 pt-8 pb-6 hover:cursor-pointer"
+        onClick={() => router.push("/")}
+      >
         <div className="flex items-center gap-3 mb-6">
           <Cloud className="w-12 h-12 text-primary" />
           <h1 className="text-4xl font-bold text-primary">CloudyMeter</h1>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Reading } from "@/types/reading";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import {
   Card,
   CardHeader,
@@ -25,6 +25,20 @@ export function SensorChart({
   minThreshold?: number | null;
   maxThreshold?: number | null;
 }) {
+  const chartRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (chartRef.current) {
+      chartRef.current.getEchartsInstance().setOption({
+        series: [
+          {
+            data: readings.map((r) => [new Date(r.time).getTime(), r.value]),
+          },
+        ],
+      });
+    }
+  }, [readings]);
+
   const option = useMemo(() => {
     const markLineData: any[] = [];
     if (minThreshold != null) {
@@ -98,11 +112,12 @@ export function SensorChart({
     <Card className="w-full h-fit">
       <CardHeader className="mb-10">
         <CardTitle>{title}</CardTitle>
-        <CardDescription>Last 24 hours</CardDescription>
+        <CardDescription>Leituras do Sensor</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-0">
         <div className="h-[250px]">
           <ReactECharts
+            ref={chartRef}
             theme={theme === "dark" ? "light" : "light"}
             option={option}
             style={{ height: "100%", width: "100%" }}

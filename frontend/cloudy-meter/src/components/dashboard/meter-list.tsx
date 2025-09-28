@@ -13,6 +13,8 @@ export function MeterList({
   selectedId?: string;
   onSelect: (id: string) => void;
 }) {
+  console.log(items);
+
   return (
     <Card className="h-full flex flex-col shadow-none border-none border-neutral-200">
       <CardContent className="flex-1 p-0">

@@ -2,18 +2,19 @@ import { Meter } from "@/types/meter";
 import { Badge } from "../ui/badge";
 import { MeterStatus } from "@/types/enums/MeterStatus";
 
-export function StatusBadge({ status }: { status: Meter["status"] }) {
-  const getVariant = (status: MeterStatus) => {
+export function StatusBadge({ status }: { status: string }) {
+  const getVariant = (status: string) => {
     switch (status) {
-      case MeterStatus.PROVISIONED:
+      case "PROVISIONED":
         return "neutral";
-      case MeterStatus.ACTIVE:
+      case "ACTIVE":
         return "primary";
-      case MeterStatus.INACTIVE:
+      case "INACTIVE":
         return "error";
-      case MeterStatus.UNKNOWN:
+      case "UNKNOWN":
         return "secondary";
     }
   };
+  console.log(getVariant(status));
   return <Badge variant={getVariant(status)}>{status}</Badge>;
 }

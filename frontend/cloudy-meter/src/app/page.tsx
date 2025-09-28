@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen w-full flex flex-col">
       {/* Hero Section */}
-      <header className="bg-gradient-to-r from-primary-400 to-primary-700 py-20 text-neutral-50">
+      <header className="bg-gradient-to-r from-primary-400 to-primary-700 dark:from-primary-50 dark:to-primary-100 py-20 text-neutral-50 dark:text-neutral-900">
         <div className="container mx-auto text-center px-4 flex flex-col items-center gap-4">
           <div className="flex items-center gap-3">
             <Cloud className="w-12 h-12 " />
@@ -42,7 +42,7 @@ export default function HomePage() {
       </header>
 
       {/* Features Section */}
-      <section className="py-20 bg-primary-50 flex-1">
+      <section className="py-20 bg-primary-50 dark:bg-primary-50 flex-1">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-primary">
             Recursos Principais
@@ -80,7 +80,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-primary-700 text-neutral-50 py-6">
+      <footer className="bg-primary-700  dark:bg-primary-50 text-neutral-50 dark:text-neutral-900 py-6">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
           <span className="text-sm mb-2 md:mb-0">
             &copy; {new Date().getFullYear()} CloudyMeter. Todos os direitos

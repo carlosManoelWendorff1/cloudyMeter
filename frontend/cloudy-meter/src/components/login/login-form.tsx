@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
 
 type LoginFormValues = {
   name: string;
@@ -30,11 +31,17 @@ export function LoginForm({
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>();
   const router = useRouter();
-
   async function onSubmit(data: LoginFormValues) {
     const res = await signIn("credentials", { redirect: false, ...data });
-    if (res?.error) console.error("Login error:", res.error);
-    else router.push("/");
+    if (res?.error) {
+      toast("Failed Login! Try Again Later.", {
+        type: "error",
+        theme: "colored",
+      });
+      console.error("Login error:", res.error);
+    } else {
+      router.push("/");
+    }
   }
 
   return (
@@ -43,7 +50,7 @@ export function LoginForm({
         <CardTitle className="text-2xl md:text-3xl font-bold text-primary-700">
           Bem-vindo
         </CardTitle>
-        <CardDescription>Entre com seu usuário e senha</CardDescription>
+        <CardDescription>Entre com sua organização e senha</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -51,8 +58,8 @@ export function LoginForm({
             <Label htmlFor="name">Usuário</Label>
             <Input
               id="name"
-              placeholder="Digite seu usuário"
-              {...register("name", { required: "Nome é obrigatório" })}
+              placeholder="Digite sua organização"
+              {...register("name", { required: "Organização é obrigatória" })}
             />
             {errors.name && (
               <span className="text-sm text-error">{errors.name.message}</span>

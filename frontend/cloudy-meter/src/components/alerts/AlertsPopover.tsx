@@ -41,7 +41,7 @@ export default function AlertsPopover({ sensorId }: AlertsPopoverProps) {
 
     if (sensorId) {
       fetchAlerts(); // busca inicial
-      intervalId = setInterval(fetchAlerts, 5000); // busca a cada 5s
+      intervalId = setInterval(fetchAlerts, 60000);
     }
 
     // cleanup para não ficar acumulando intervalos

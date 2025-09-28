@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { signOut } from "next-auth/react"; // apenas no client
 
 async function refreshAccessToken(token: any) {
   try {
@@ -24,7 +25,6 @@ async function refreshAccessToken(token: any) {
   }
 }
 
-// Exportando authOptions para poder usar em getServerSession
 export const authOptions = {
   providers: [
     CredentialsProvider({
@@ -41,9 +41,8 @@ export const authOptions = {
         });
 
         const user = await res.json();
-
         if (!res.ok || !user.accessToken) return null;
-        console.log("User logged in:", user);
+
         return {
           name: credentials?.name,
           accessToken: user.accessToken,
@@ -63,10 +62,12 @@ export const authOptions = {
         };
       }
 
+      // Se o accessToken ainda não expirou
       if (Date.now() < (token.accessTokenExpires as number)) {
         return token;
       }
 
+      // Tenta refresh
       return await refreshAccessToken(token);
     },
     async session({ session, token }: any) {
@@ -82,6 +83,5 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// Handler NextAuth
 export const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
