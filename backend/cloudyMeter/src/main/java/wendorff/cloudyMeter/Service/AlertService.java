@@ -49,6 +49,6 @@ public class AlertService {
     }
 
     public List<Alert> getAlertsBySensor(String sensorId) {
-        return alertRepository.findBySensorId(sensorId);
+        return alertRepository.findTop5BySensorIdOrderByTimeDesc(sensorId);
     }
 }

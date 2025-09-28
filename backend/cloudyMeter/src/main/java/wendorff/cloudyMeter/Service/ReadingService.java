@@ -37,7 +37,7 @@ public class ReadingService {
     }
 
     public List<Reading> findBySensorId(String id) {
-        return repository.findBySensorId(id);
+        return repository.findLatestContinuousBlock(id);
     }
 
     public Reading save(ReadingDTO readingDTO) {
