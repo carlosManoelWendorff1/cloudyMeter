@@ -2,17 +2,38 @@
 actor Usuario
 database PostgreSQL
 cloud MQTT
-rectangle "Arduino + Sensor\n(MQTT Publisher)" as Arduino
-rectangle "Backend\n(Java Spring Boot)\n- Autenticação\n- Sessões\n- API" as Backend
-rectangle "Frontend\nReact + Next.js" as Frontend
 
-Usuario --> Frontend : login (basic auth)
-Frontend --> Backend : login (basic auth)
+rectangle "Arduino + Sensores\n(MQTT Publisher)" as Arduino
+rectangle "Simulador Python\n(MQTT Publisher)" as Simulador
+
+rectangle "Backend\n(Java Spring Boot)\n- Autenticação\n- Processamento e análise de leituras\n- Geração de alertas\n- Integração Telegram\n- API REST + Swagger" as Backend
+
+rectangle "Frontend\nReact + Next.js\n- Dashboard\n- Configuração de Thresholds\n- Visualização de Alertas" as Frontend
+
+rectangle "Telegram Bot\n- Notificações\n- Cadastro de Organizations\n- Cadastro de Meters" as Telegram
+
+rectangle "Swagger UI\n(Documentação e Testes)" as Swagger
+
+' --- Fluxo de autenticação ---
+Usuario --> Frontend : login (Basic Auth)
+Frontend --> Backend : autenticação
 Backend --> PostgreSQL : valida credenciais (Organization)
-Backend --> Frontend : retorna token de sessão (JWT, etc.)
-Frontend --> Backend : envia token nas requisições subsequentes
-Backend --> PostgreSQL
-Arduino --> MQTT
-MQTT --> Backend
+Backend --> Frontend : retorna token (JWT)
+Frontend --> Backend : requisições com token
+Backend --> PostgreSQL : leitura/escrita de dados
+
+' --- Fluxo de sensores ---
+Arduino --> MQTT : publica readings/status
+Simulador --> MQTT : publica readings/status
+MQTT --> Backend : entrega mensagens
+
+' --- Alertas e integrações ---
+Backend --> Telegram : envia notificações
+Usuario --> Telegram : comandos (cadastro org/medidores)
+Telegram --> Backend : registrar organizações/medidores
+
+' --- Swagger ---
+Usuario --> Swagger : consulta/testa APIs
+Swagger --> Backend
 
 @enduml

@@ -1,7 +1,20 @@
 @startuml
-Arduino -> MQTT: publica leitura (temperatura, umidade)
-MQTT -> Backend: envia mensagem
+actor Usuario
+participant "Arduino/Simulador Python" as Device
+participant MQTT
+participant Backend
+database PostgreSQL
+participant Frontend
+participant "Telegram Bot" as Telegram
+
+Device -> MQTT: publica leitura (temp, umidade, status)
+MQTT -> Backend: entrega mensagem
 Backend -> PostgreSQL: persiste leitura
-Backend --> Frontend: envia atualização
-Frontend --> Usuario: exibe leitura em tempo real
+Backend -> Backend: verifica thresholds
+alt valores fora do limite
+  Backend -> PostgreSQL: registra alerta
+  Backend -> Telegram: envia notificação
+end
+Backend --> Frontend: envia atualização (via API)
+Frontend --> Usuario: exibe leitura e alertas em tempo real
 @enduml
