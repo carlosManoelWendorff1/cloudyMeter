@@ -14,7 +14,7 @@ It integrates physical sensors connected to an Arduino board (or simulated in Py
 ├── database/         # Docker Compose for creating and configuring the PostgreSQL database
 ├── simulator/        # Python simulator for testing without physical hardware
 ├── frontend/         # Web application built with React + Next.js
-├── diagramas/        # Diagrams describing the project
+├── diagrams/        # Diagrams describing the project
 └── README.md
 ```
 
@@ -118,6 +118,8 @@ npm run dev
 
 You can access the full documentation (TCC report) here:  
 📎 [CloudyMeter - Google Docs](https://docs.google.com/document/d/1JZ3B5b4yDFAEL1ascxJWgDR6ur6_lXzRr40IBrODyE4/edit?usp=sharing)
+
+🎥 [Watch the project overview on YouTube](https://youtu.be/Ac6TsLdMpkM?si=MwarlN-7i_JpWxqE)
 
 ---
 
