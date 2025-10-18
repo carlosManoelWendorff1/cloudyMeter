@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import wendorff.cloudyMeter.Dto.AlertDTO;
 import wendorff.cloudyMeter.Dto.ReadingDTO;
-import wendorff.cloudyMeter.Model.Alert;
 import wendorff.cloudyMeter.Model.Reading;
 import wendorff.cloudyMeter.Model.Sensor;
 import wendorff.cloudyMeter.Repository.ReadingRepository;

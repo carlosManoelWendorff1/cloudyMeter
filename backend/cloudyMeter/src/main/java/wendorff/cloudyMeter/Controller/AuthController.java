@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import wendorff.cloudyMeter.Config.JwtUtil;
+import wendorff.cloudyMeter.Config.PasswordHasher;
 import wendorff.cloudyMeter.Model.LoginRequest;
 import wendorff.cloudyMeter.Repository.OrganizationRepository;
 
@@ -15,21 +16,21 @@ public class AuthController {
 
     private final OrganizationRepository orgRepo;
     private final JwtUtil jwtUtil;
+    private final PasswordHasher passwordHasher;
 
-    public AuthController(OrganizationRepository orgRepo, JwtUtil jwtUtil) {
+    public AuthController(OrganizationRepository orgRepo, JwtUtil jwtUtil, PasswordHasher passwordHasher) {
         this.orgRepo = orgRepo;
         this.jwtUtil = jwtUtil;
+        this.passwordHasher = passwordHasher;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         return orgRepo.findByName(request.getName())
-                .filter(org -> request.getPassword().equals(org.getPasswordHash())) // sem BCrypt
+                .filter(org -> passwordHasher.verifyPassword(request.getPassword(), org.getPasswordHash()))
                 .map(org -> {
                     String accessToken = jwtUtil.generateToken(org.getName(), 60 * 60 * 1000); // 1h
                     String refreshToken = jwtUtil.generateToken(org.getName(), 7 * 24 * 60 * 60 * 1000); // 7 dias
-                    System.out.println(accessToken);
-                    System.out.println(refreshToken);
                     return ResponseEntity.ok(Map.of(
                             "accessToken", accessToken,
                             "refreshToken", refreshToken));

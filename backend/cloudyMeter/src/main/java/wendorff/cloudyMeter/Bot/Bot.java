@@ -7,6 +7,8 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import wendorff.cloudyMeter.Config.PasswordHasher;
 import wendorff.cloudyMeter.Model.Organization;
 import wendorff.cloudyMeter.Service.OrganizationService;
 import wendorff.cloudyMeter.Service.ProvisionService;
@@ -34,36 +36,39 @@ public class Bot extends TelegramLongPollingBot {
     @Autowired
     private ProvisionService provisionService;
 
+    @Autowired
+    private PasswordHasher passwordHasher;
+
     private final Map<String, BiFunction<String, String, String>> commands = new HashMap<>();
 
     public Bot() {
         // registra os comandos
         commands.put("/help", (msg, chatId) -> """
-                📋 Comandos disponíveis:
-/help - lista de comandos
-/register - registrar uma organização
-/provision - provisionar um medidor
-/info - informações sobre o bot
-/whoami - informações sobre o autor
-/website - acessar o website do CloudyMeter
-                """);
+                                📋 Comandos disponíveis:
+                /help - lista de comandos
+                /register - registrar uma organização
+                /provision - provisionar um medidor
+                /info - informações sobre o bot
+                /whoami - informações sobre o autor
+                /website - acessar o website do CloudyMeter
+                                """);
 
         commands.put("/info", (msg, chatId) -> """
-                🤖 Eu sou o *CloudyMeter Bot*!
-Sou um assistente para notificar alertas do sistema *Cloudy Meter* (TCC).
-O objetivo é facilitar a comunicação e o monitoramento dos eventos do sistema.
-                """);
+                                🤖 Eu sou o *CloudyMeter Bot*!
+                Sou um assistente para notificar alertas do sistema *Cloudy Meter* (TCC).
+                O objetivo é facilitar a comunicação e o monitoramento dos eventos do sistema.
+                                """);
 
         commands.put("/whoami", (msg, chatId) -> """
-                👤 Autor: Carlos Manoel Wendorff
-🔗 LinkedIn: www.linkedin.com/in/carlos-manoel-wendorff-66b875228
-💻 GitHub do projeto: https://github.com/carlosManoelWendorff1/cloudyMeter
-                """);
+                                👤 Autor: Carlos Manoel Wendorff
+                🔗 LinkedIn: www.linkedin.com/in/carlos-manoel-wendorff-66b875228
+                💻 GitHub do projeto: https://github.com/carlosManoelWendorff1/cloudyMeter
+                                """);
 
         commands.put("/website", (msg, chatId) -> """
-            🌐 Acesse o website do CloudyMeter:
-👉 [Abrir Website](https://seu-dominio-ou-endereco.com)
-            """);
+                            🌐 Acesse o website do CloudyMeter:
+                👉 [Abrir Website](https://seu-dominio-ou-endereco.com)
+                            """);
     }
 
     @Override
@@ -100,7 +105,7 @@ O objetivo é facilitar a comunicação e o monitoramento dos eventos do sistema
         String resposta;
 
         switch (command) {
-            case "/register" -> resposta = registerOrganization(originalMessage, chatId, username,provisionKey);
+            case "/register" -> resposta = registerOrganization(originalMessage, chatId, username, provisionKey);
             case "/provision" -> resposta = provisionMeter(originalMessage, chatId);
             default -> {
                 var action = commands.get(command);
@@ -126,14 +131,16 @@ O objetivo é facilitar a comunicação e o monitoramento dos eventos do sistema
         String pass = parts[2];
         String userProvisionKey = parts[3];
 
-        if(provisionKey == null || provisionKey.isBlank() || !provisionKey.equals(userProvisionKey)) {
+        if (provisionKey == null || provisionKey.isBlank() || !provisionKey.equals(userProvisionKey)) {
             return "❌ Chave de provisionamento inválida.";
         }
-        
+
         Organization org = new Organization();
         org.setName(name);
         org.setChatId(chatId);
-        org.setPasswordHash(pass);
+        // 🔒 Gera o hash da senha com a chave secreta do application.properties
+        String hashedPassword = passwordHasher.hashPassword(pass);
+        org.setPasswordHash(hashedPassword);
 
         organizationService.save(org);
 
