@@ -14,11 +14,103 @@ It integrates physical sensors connected to an Arduino board (or simulated in Py
 ├── database/         # Docker Compose for creating and configuring the PostgreSQL database
 ├── simulator/        # Python simulator for testing without physical hardware
 ├── frontend/         # Web application built with React + Next.js
-├── diagrams/        # Diagrams describing the project
+├── diagrams/         # Diagrams describing the project
 └── README.md
 ```
 
 ---
+
+# 🖥️ System Screenshots
+
+Below are key screens of **CloudyMeter**, showing the full experience from login to detailed meter readings.
+
+---
+
+## 🔐 **1. Login Screen**
+
+> Organization-based authentication to access the CloudyMeter dashboards.
+
+<p align="center">
+  <img src="./diagrams/login.png" width="700" />
+</p>
+
+---
+
+## 📊 **2. Dashboard – Overview**
+
+> Shows meter sensors, alerts and options for threshold configuration.
+
+<p align="center">
+  <img src="./diagrams/telaWeb.png" width="350" />
+</p>
+
+---
+
+## 🌡️ **3. Meter Details & Readings**
+
+> Displays charts and the current state of a specific meter.
+
+<p align="center">
+  <img src="./diagrams/readings.png" width="700" />
+</p>
+
+---
+
+## ⚙️ **4. Threshold Configuration**
+
+> Allows adjusting temperature/humidity limits and enabling automated alerts.
+
+<p align="center">
+  <img src="./diagrams/alerts.png" width="700" />
+</p>
+
+---
+
+## 📱 Mobile Screenshots
+
+### Mobile View – Dashboard, Meter Details & Readings
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./diagrams/mobilecomsidebar.png" width="250" />
+        <br/><b>Dashboard (Mobile)</b>
+      </td>
+      <td align="center">
+        <img src="./diagrams/readingsmobile.png" width="250" />
+        <br/><b>Meter Details (Mobile)</b>
+      </td>
+    </tr>
+  </table>
+</p>
+
+## 🧩 System Screenshots Grid
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./diagrams/login.png" width="300"/><br/>
+        <b>Login</b>
+      </td>
+      <td align="center">
+        <img src="./diagrams/telaWeb.png" width="300"/><br/>
+        <b>Dashboard</b>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="./diagrams/readings.png" width="300"/><br/>
+        <b>Meter Details & Readings</b>
+      </td>
+      <td align="center">
+        <img src="./diagrams/alerts.png" width="300"/><br/>
+        <b>Threshold Configuration</b>
+      </td>
+    </tr>
+  </table>
+</p>
 
 ## 📷 Diagrams
 
@@ -32,24 +124,26 @@ It integrates physical sensors connected to an Arduino board (or simulated in Py
 
 ### Sequence
 
-#### Auth
+#### Auth Flow
 
 ![Auth Sequence](./diagrams/diagrama%20de%20sequencia%20auth.png)
 
-#### MQTT
+#### MQTT Flow
 
 ![MQTT Sequence](./diagrams/diagrama%20de%20sequencia%20mqtt.png)
+
+---
 
 ## 🛠️ Technologies Used
 
 - **Arduino + sensors** → physical data collection
 - **Python simulator** → simulate meters and sensors without hardware
-- **MQTT** → lightweight protocol for IoT communication
-- **Java + Spring Boot** → backend (API REST, processing, alerts, Telegram integration)
-- **PostgreSQL** → relational database for persistence
-- **React + Next.js** → web dashboard for visualization and threshold management
-- **Telegram Bot** → notifications in real time and registration of organizations/meters
-- **Swagger UI** → API documentation and testing
+- **MQTT** → lightweight IoT communication protocol
+- **Java + Spring Boot** → backend with REST API, processing, alerts, Telegram bot
+- **PostgreSQL** → relational database
+- **React + Next.js** → dashboard UI
+- **Telegram Bot** → real-time notifications and device/organization registration
+- **Swagger UI** → API documentation
 
 ---
 
@@ -57,8 +151,8 @@ It integrates physical sensors connected to an Arduino board (or simulated in Py
 
 ### 1. Arduino
 
-- Upload the code from the `arduino/` folder to your device
-- Configure the Wi-Fi credentials and MQTT broker in the source code
+- Upload the code from `arduino/`
+- Configure Wi-Fi and MQTT broker credentials
 
 ### 2. Backend (Java)
 
@@ -67,13 +161,13 @@ cd backend/
 ./mvnw spring-boot:run
 ```
 
-- Make sure a PostgreSQL instance is running and accessible.
-- Create organizations with name and password credentials before starting or use the telegram bot.
-- API documentation available at Swagger UI
+- Ensure PostgreSQL is running
+- Create organizations manually or via Telegram bot
+- Swagger UI available for testing
 
 ### 3. Database
 
-- Run the SQL scripts located in the `database/` folder to initialize the schema
+- Run the SQL scripts located in `database/`
 
 ### 4. Frontend
 
@@ -87,39 +181,40 @@ npm run dev
 
 ## 📌 Features
 
-- Real-time monitoring of temperature and humidity
-- Historical data storage in PostgreSQL
-- Interactive dashboards with charts and alerts
-- Multi-sensor support per device (meter)
-- Multi-organization (SaaS) support with isolated data
-- Automatic sensor creation per meter:
-  - 1 base humidity sensor
-  - 1 base temperature sensor
-  - 3 additional temperature sensors
-- Threshold configuration via frontend
-- Automatic alert generation when thresholds are exceeded
-- Real-time notifications via Telegram Bot
-- Device and organization registration through Telegram
-- Authentication and authorization with JWT
+- Real-time temperature & humidity monitoring
+- Historical data persistence
+- Interactive charts and alerts
+- Multi-sensor per device
+- Multi-organization isolation
+- Automatic sensor creation (1 humidity, 1 base temp, +3 temp sensors)
+- Thresholds editable via dashboard
+- Alerts generated when limits are exceeded
+- Telegram notifications
+- Device/organization registration via Telegram
+- JWT authentication
 
 ---
 
 ## 🔐 Authentication & Authorization
 
-- Organizations authenticate with credentials (name + password)
-- Backend validates credentials and issues a JWT token
+- Organizations authenticate with _name + password_
+- Backend issues a JWT token
 - Frontend stores the token and includes it in API requests
-- Access is restricted: each organization can only see its own meters and sensors
-- Tokens have expiration and are centrally managed by the backend
+- Each organization can only access its own meters
+- Tokens expire and are fully managed by the backend
 
 ---
 
 ## 📄 Full Documentation
 
-You can access the full documentation (TCC report) here:  
-📎 [CloudyMeter - Google Docs](https://docs.google.com/document/d/1JZ3B5b4yDFAEL1ascxJWgDR6ur6_lXzRr40IBrODyE4/edit?usp=sharing)
+Full TCC paper (Google Docs):  
+📎 https://docs.google.com/document/d/1JZ3B5b4yDFAEL1ascxJWgDR6ur6_lXzRr40IBrODyE4/edit?usp=sharing
 
-🎥 [Watch the project overview on YouTube](https://youtu.be/Ac6TsLdMpkM?si=MwarlN-7i_JpWxqE)
+Project video on YouTube - Benchmark with simulated device:  
+🎥 https://youtu.be/Ac6TsLdMpkM?si=MwarlN-7i_JpWxqE
+
+Project video on YouTube - Benchmark with physical device:  
+🎥 https://youtu.be/jt2o1N0cPOM?si=JAziVFmNov37Gc99
 
 ---
 

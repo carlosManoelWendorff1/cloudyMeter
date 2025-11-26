@@ -12,12 +12,17 @@ export default async function Layout({
 }) {
   const session = await getServerSession(authOptions);
   const token = session?.accessToken;
+  console.log("Layout - Token:", token);
   const meters = await apiFetchServer<Meter[]>("/meters/list", token);
 
   return (
     <SidebarProvider>
       <AppSidebar meters={meters || []} />
-      <main className="w-full h-100vh">{children}</main>
+      <main className="w-full h-100vh">
+        {" "}
+        <SidebarTrigger className="md:hidden" />
+        {children}
+      </main>
     </SidebarProvider>
   );
 }

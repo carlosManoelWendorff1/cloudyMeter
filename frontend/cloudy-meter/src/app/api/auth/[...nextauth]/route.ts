@@ -42,7 +42,7 @@ export const authOptions = {
 
         const user = await res.json();
         if (!res.ok || !user.accessToken) return null;
-
+        console.log("Authorize - User:", user);
         return {
           name: credentials?.name,
           accessToken: user.accessToken,

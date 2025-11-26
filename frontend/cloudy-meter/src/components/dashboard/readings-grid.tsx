@@ -73,7 +73,7 @@ export function ReadingsGrid({ rows }: { rows: Reading[] }) {
     resizable: true,
     flex: 1,
   };
-  const theme = useTheme().theme;
+  const theme = useTheme().resolvedTheme;
   const gridTheme = themeAlpine.withPart(
     theme === "dark" ? colorSchemeDark : colorSchemeLight
   );

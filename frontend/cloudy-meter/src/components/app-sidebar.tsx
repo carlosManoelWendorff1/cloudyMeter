@@ -9,6 +9,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { MeterList } from "./dashboard/meter-list";
 import { Cloud } from "lucide-react";
@@ -24,7 +25,6 @@ export function AppSidebar({ meters, ...props }: AppSidebarProps) {
   const router = useRouter();
   const [selectedId, setSelectedId] = useState<string>("");
   const [filterText, setFilterText] = useState("");
-
   const filteredMeters = useMemo(
     () =>
       meters?.filter((m) =>
@@ -39,6 +39,7 @@ export function AppSidebar({ meters, ...props }: AppSidebarProps) {
       className="bg-primary-50 border-r border-primary-100 shadow-md flex flex-col justify-between"
       {...props}
     >
+      <SidebarTrigger className="md:hidden" />
       {/* Header */}
       <SidebarHeader
         className="px-6 pt-8 pb-6 hover:cursor-pointer"
@@ -74,7 +75,7 @@ export function AppSidebar({ meters, ...props }: AppSidebarProps) {
           <ModeToggle />
         </div>
       </SidebarFooter>
-      s{/* Optional Sidebar Rail */}
+      {/* Optional Sidebar Rail */}
       <SidebarRail />
     </Sidebar>
   );
