@@ -1,0 +1,71 @@
+@startuml
+skinparam rectangle {
+  BackgroundColor #FAFAFA
+  BorderColor #333333
+  RoundCorner 8
+}
+skinparam noteBackgroundColor #FFFFE0
+skinparam arrowColor #444444
+
+title Circuit Diagram — ESP32 DevKit + Temperature Probes + Env. Sensor + Power Switch
+
+rectangle "External Power Source\n(5V Supply)" as POWER #FDEBD0
+
+rectangle "Main Power Switch\n(ON/OFF for the entire circuit)" as SWITCH #FADBD8
+
+rectangle "JST 2-pin Power Connector\n(+5V and Ground)" as JST #F0F0F0
+
+rectangle "ESP32 DevKit Board\n(VIN, 3V3, GND, GPIO21, GPIO22, GPIO4)" as ESP32 #E8F8F5
+
+rectangle "Environmental Sensor\n(Temperature + Humidity)\n(BME280 Module)\nI2C: SDA(GPIO21), SCL(GPIO22)" as BME #EAF2F8
+
+rectangle "Temperature Probe #1\n(Digital Temperature Sensor)\n(DS18B20)\nDATA -> GPIO4" as DS1 #FEF9E7
+rectangle "Temperature Probe #2\n(Digital Temperature Sensor)\n(DS18B20)\nDATA -> GPIO4" as DS2 #FEF9E7
+rectangle "Temperature Probe #3\n(Digital Temperature Sensor)\n(DS18B20)\nDATA -> GPIO4" as DS3 #FEF9E7
+
+note right of DS1
+  1-Wire Temperature Network
+  (all probes share the same DATA line)
+end note
+
+rectangle "4.7kΩ Pull-up Resistor\n(DATA line -> 3.3V)" as PULLUP #FCF3CF
+
+' Power Connections
+POWER --> SWITCH : +5V
+SWITCH --> JST : +5V (after switch)
+JST --> ESP32 : +5V (VIN)\nGround -> GND
+
+' ESP32 powers sensors
+ESP32 --> BME : 3.3V (VCC)
+ESP32 --> DS1 : 3.3V (VCC)
+ESP32 --> DS2 : 3.3V (VCC)
+ESP32 --> DS3 : 3.3V (VCC)
+
+' GND common
+JST --> ESP32 : Ground
+ESP32 --> BME : Ground
+ESP32 --> DS1 : Ground
+ESP32 --> DS2 : Ground
+ESP32 --> DS3 : Ground
+
+' Signal connections
+ESP32 --> BME : SDA -> GPIO21\nSCL -> GPIO22
+ESP32 --> PULLUP : 3.3V -> Pull-up resistor
+PULLUP --> DS1 : DATA -> GPIO4
+PULLUP --> DS2 : DATA -> GPIO4
+PULLUP --> DS3 : DATA -> GPIO4
+
+' 1-Wire bus representation
+DS1 -[#888888]-> ESP32 : DATA (1-Wire)\n(GPIO4)
+DS2 -[#888888]-> ESP32 : DATA (1-Wire)\n(GPIO4)
+DS3 -[#888888]-> ESP32 : DATA (1-Wire)\n(GPIO4)
+
+note left of ESP32
+  Notes:
+  * 4.7kΩ resistor keeps the 1-Wire DATA line stable.
+  * The power switch controls the full system.
+  * DS18B20: use OneWire + DallasTemperature libraries.
+  * BME280 communicates via I2C (0x76 or 0x77).
+end note
+
+@enduml

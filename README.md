@@ -66,25 +66,6 @@ Below are key screens of **CloudyMeter**, showing the full experience from login
 
 ---
 
-## 📱 Mobile Screenshots
-
-### Mobile View – Dashboard, Meter Details & Readings
-
-<p align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <img src="./diagrams/mobilecomsidebar.png" width="250" />
-        <br/><b>Dashboard (Mobile)</b>
-      </td>
-      <td align="center">
-        <img src="./diagrams/readingsmobile.png" width="250" />
-        <br/><b>Meter Details (Mobile)</b>
-      </td>
-    </tr>
-  </table>
-</p>
-
 ## 🧩 System Screenshots Grid
 
 <p align="center">
@@ -112,6 +93,40 @@ Below are key screens of **CloudyMeter**, showing the full experience from login
   </table>
 </p>
 
+## 📱 Mobile Screenshots
+
+### Mobile View – Dashboard, Meter Details & Readings
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./diagrams/mobilecomsidebar.png" width="250" />
+        <br/><b>Dashboard (Mobile)</b>
+      </td>
+      <td align="center">
+        <img src="./diagrams/readingsmobile.png" width="250" />
+        <br/><b>Meter Details (Mobile)</b>
+      </td>
+    </tr>
+  </table>
+</p>
+
+## 📱 Physical Meter
+
+### Physical Meter - Sensors and Board
+
+<p align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="./diagrams/medidor.jpg" width="500" />
+        <br/><b>Board and Sensors</b>
+      </td>
+    </tr>
+  </table>
+</p>
+
 ## 📷 Diagrams
 
 ### System Architecture
@@ -132,7 +147,9 @@ Below are key screens of **CloudyMeter**, showing the full experience from login
 
 ![MQTT Sequence](./diagrams/diagrama%20de%20sequencia%20mqtt.png)
 
----
+### Meter
+
+## ![Meter](./diagrams/diagrama%20de%20blocos%20do%20medidor.png)
 
 ## 🛠️ Technologies Used
 
