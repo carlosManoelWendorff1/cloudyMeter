@@ -218,6 +218,14 @@ Project video on YouTube - Benchmark with physical device:
 
 ---
 
+## 🪧 Presentation Banner
+
+<p align="center">
+  <img src="./diagrams/Cloudymeter banner.png" width="700" />
+</p>
+
+---
+
 ## ✍️ Author
 
 Carlos Manoel Wendorff  
