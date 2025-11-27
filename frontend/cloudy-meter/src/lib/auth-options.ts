@@ -2,12 +2,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 async function refreshAccessToken(token: any) {
   try {
-    const res = await fetch(`${process.env.API_BASE_URL}/auth/refresh`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken: token.refreshToken }),
     });
-
+    console.log("Refresh token response status:", res);
     const refreshed = await res.json();
 
     if (!res.ok) throw refreshed;
@@ -32,11 +32,15 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
-        const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-        });
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+          }
+        );
+        console.log("Refresh token response status:", res);
 
         const user = await res.json();
         if (!res.ok || !user.accessToken) return null;
