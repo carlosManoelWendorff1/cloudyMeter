@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react"; // apenas no client
 
 async function refreshAccessToken(token: any) {
   try {

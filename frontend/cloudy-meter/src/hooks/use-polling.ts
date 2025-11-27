@@ -19,7 +19,6 @@ export function usePolling<T>(
 
   useEffect(() => {
     isMounted.current = true;
-    let timer: NodeJS.Timeout;
 
     const fetchData = async () => {
       setLoading(true);
@@ -38,7 +37,7 @@ export function usePolling<T>(
     };
 
     fetchData(); // fetch inicial
-    timer = setInterval(fetchData, intervalMs);
+    const timer = setInterval(fetchData, intervalMs);
 
     return () => {
       isMounted.current = false;
