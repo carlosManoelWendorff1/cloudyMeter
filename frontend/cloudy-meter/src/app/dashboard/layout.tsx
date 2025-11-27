@@ -3,7 +3,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { Meter } from "@/types/meter";
 import { apiFetchServer } from "@/lib/api-server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-options";
 
 export default async function Layout({
   children,

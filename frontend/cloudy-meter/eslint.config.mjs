@@ -10,10 +10,9 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  // presets do Next
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  // Apenas o preset correto para App Router
+  ...compat.extends("next"),
 
-  // --- AQUI você sobrescreve as regras ---
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

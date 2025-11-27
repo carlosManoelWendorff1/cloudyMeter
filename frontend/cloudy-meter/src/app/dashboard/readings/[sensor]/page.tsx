@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { apiFetchServer } from "@/lib/api-server";
 import { Sensor } from "@/types/sensor";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { SensorDashboard } from "@/components/dashboard/sensor-dashboard";
+import { authOptions } from "@/lib/auth-options";
 
 type Props = { params: { sensor: string } };
 
