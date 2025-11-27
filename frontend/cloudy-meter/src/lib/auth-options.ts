@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 async function refreshAccessToken(token: any) {
   try {
-    const res = await fetch("http://localhost:8080/auth/refresh", {
+    const res = await fetch(`${process.env.API_BASE_URL}/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken: token.refreshToken }),
@@ -32,7 +32,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials): Promise<any> {
-        const res = await fetch("http://localhost:8080/auth/login", {
+        const res = await fetch(`${process.env.API_BASE_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(credentials),
