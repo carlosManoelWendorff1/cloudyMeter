@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>wendorff</groupId>
 	<artifactId>cloudyMeter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>cloudyMeter</name>
-	<description>Demo project for Spring Boot</description>
+	<description>cloudyMeter API</description>
 	<url/>
 	<licenses>
 		<license/>
