@@ -5,6 +5,19 @@ It integrates physical sensors connected to an Arduino board (or simulated in Py
 
 ---
 
+## 🚪Application Access
+
+Access CloudyMeter Website:
+🌐 https://cloudy-meter-r4n8-22s4t1pys-carlos-manoel-wendorffs-projects.vercel.app/
+
+Access CloudyMeter API documentation:
+🗃️ https://cloudymeterapi-d8erd7cnata4b6dn.brazilsouth-01.azurewebsites.net/swagger-ui/index.html#
+
+Talk with CloudyMeter Bot to start testing the application:  
+🤖 https://web.telegram.org/k/#@CWCloudyBot
+
+---
+
 ## 📁 Project Structure
 
 ```
